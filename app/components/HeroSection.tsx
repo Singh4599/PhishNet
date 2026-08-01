@@ -1,299 +1,329 @@
 "use client";
 
-/**
- * components/HeroSection.tsx
- *
- * Exact replication of the provided design mockup.
- * Left: Copy, features, buttons, social proof.
- * Right: Pure CSS dashboard window mockup.
- */
-
+import React, { useState } from "react";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection() {
+  const router = useRouter();
+  const [inputVal, setInputVal] = useState("");
+
+  const handleAnalyze = () => {
+    if (inputVal.trim()) {
+      // In a real app we might pass this state, but for now just navigate
+      router.push("/scan");
+    }
+  };
+
   return (
     <section
+      className="bg-grid"
       style={{
         position: "relative",
-        paddingTop: "4rem",
-        paddingBottom: "4rem",
+        paddingTop: "6rem",
+        paddingBottom: "8rem",
         overflow: "hidden",
       }}
     >
-      {/* Background Graphic (Leaf shape bottom right) */}
-      <div style={{ position: "absolute", right: "-5%", bottom: "-10%", opacity: 0.1, pointerEvents: "none", zIndex: 0 }}>
-        <svg width="600" height="500" viewBox="0 0 100 100" fill="var(--primary)">
-          <path d="M50 100C50 100 0 75 0 30C0 -15 50 10 50 10C50 10 100 -15 100 30C100 75 50 100 50 100Z" />
-        </svg>
-      </div>
-      
-      {/* Dashed line graphic top right */}
-      <div style={{ position: "absolute", right: "20%", top: "10%", opacity: 0.2, pointerEvents: "none", zIndex: 0 }}>
-        <svg width="200" height="50" viewBox="0 0 200 50" fill="none" stroke="var(--primary)" strokeWidth="2" strokeDasharray="6 6">
-          <path d="M0 25 Q 100 -20, 200 25" />
-        </svg>
-      </div>
-
       <div className="content-width" style={{ position: "relative", zIndex: 1 }}>
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "4rem",
-            alignItems: "center",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "3rem",
+            alignItems: "flex-start",
           }}
         >
-          
-          {/* ── LEFT COLUMN: Copy & Actions ── */}
-          <div style={{ paddingRight: "2rem" }}>
+          {/* ── LEFT COLUMN: Copy & Input ── */}
+          <div style={{ paddingRight: "1rem", paddingTop: "1rem" }}>
             
-            {/* Eyebrow */}
+            {/* Cyber Badge */}
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.25rem 0.75rem",
-                border: "1px solid var(--glass-border)",
-                borderRadius: "var(--radius-pill)",
-                background: "var(--glass)",
+                gap: "0.75rem",
+                padding: "0.375rem 1rem",
+                border: "1px solid var(--cyan)",
+                borderRadius: "4px",
+                background: "var(--cyan-dim)",
                 marginBottom: "2rem",
+                boxShadow: "0 0 10px var(--cyan-dim), inset 0 0 10px var(--cyan-dim)",
               }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 <path d="M9 12l2 2 4-4" />
               </svg>
-              <span style={{ fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.05em", color: "var(--text-1)", textTransform: "uppercase" }}>
-                AI + Rule-Based Security Engine
+              <span style={{ fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, letterSpacing: "0.1em", color: "var(--cyan)", textTransform: "uppercase" }}>
+                AI + Rule-Based • 8 Security Engines
               </span>
             </div>
 
             {/* Headline */}
             <h1
               style={{
-                fontSize: "clamp(3rem, 5vw, 4.5rem)",
+                fontSize: "clamp(3rem, 4.5vw, 4.5rem)",
                 fontWeight: 700,
-                color: "var(--text-1)",
-                lineHeight: 1.1,
+                color: "var(--text-white)",
+                lineHeight: 1.05,
                 marginBottom: "1.5rem",
-                fontFamily: "var(--font-playfair), serif",
+                textTransform: "uppercase",
               }}
             >
-              Clarity before
-              <br />
-              you <span style={{ color: "var(--primary)", fontStyle: "italic" }}>click.</span>
+              DETECT THE TRAP<br />
+              BEFORE IT <span style={{ color: "var(--red)", textShadow: "0 0 15px var(--red-dim)" }}>CLICKS.</span>
             </h1>
 
             {/* Subtitle */}
             <p
               style={{
                 fontSize: "1.125rem",
-                color: "var(--text-2)",
+                color: "var(--text-white)",
                 lineHeight: 1.6,
                 marginBottom: "2.5rem",
-                maxWidth: "480px",
+                maxWidth: "90%",
+                fontWeight: 400,
               }}
             >
-              PhishNet analyzes suspicious emails, messages, and
-              URLs using AI insights and deterministic security
-              checks — so you know the real risk, every time.
+              PhishNet combines advanced AI reasoning with 8 deterministic
+              security engines to uncover phishing attempts, impersonation,
+              and hidden threats—before they reach you.
             </p>
 
             {/* Feature Grid */}
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "1.25rem",
-                marginBottom: "2.5rem",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "1rem",
+                marginBottom: "3rem",
               }}
             >
               {[
-                { icon: "🔒", title: "Private by design", desc: "Zero data stored", color: "#FDE68A", stroke: "#D97706" },
-                { icon: "⚡", title: "Results in seconds", desc: "Fast. Accurate. Clear.", color: "#FEE2E2", stroke: "#DC2626" },
-                { icon: "🛡️", title: "Explainable results", desc: "See what & why", color: "#FEF3C7", stroke: "#D97706" },
+                { icon: (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" strokeWidth="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                ), title: "PRIVATE BY DESIGN", desc: "Zero data stored" },
+                { icon: (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                ), title: "RESULTS IN SECONDS", desc: "Real-time analysis" },
+                { icon: (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="12" r="3"/></svg>
+                ), title: "EXPLAINABLE OUTCOMES", desc: "Know what & why" },
               ].map((f, i) => (
                 <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
-                  <div
-                    style={{
-                      width: "36px",
-                      height: "36px",
-                      borderRadius: "8px",
-                      background: f.color,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "1.125rem",
-                      flexShrink: 0,
-                    }}
-                    aria-hidden="true"
-                  >
-                    {f.icon}
+                  <div style={{ flexShrink: 0 }}>
+                    <div style={{ width: "36px", height: "36px", borderRadius: "8px", background: "var(--bg-panel)", border: "1px solid var(--cyan-border)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      {f.icon}
+                    </div>
                   </div>
                   <div>
-                    <h4 style={{ fontSize: "0.875rem", fontWeight: 700, color: "var(--text-1)", marginBottom: "0.125rem" }}>{f.title}</h4>
-                    <p style={{ fontSize: "0.75rem", color: "var(--text-3)" }}>{f.desc}</p>
+                    <h4 style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--text-white)", marginBottom: "0.125rem", letterSpacing: "0.05em" }}>{f.title}</h4>
+                    <p style={{ fontSize: "0.6875rem", color: "var(--text-muted)" }}>{f.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Actions */}
-            <div style={{ display: "flex", gap: "1rem", alignItems: "center", marginBottom: "3rem" }}>
-              <Link href="/scan" className="btn-primary" style={{ padding: "1rem 2rem" }}>
-                Analyze Now <span aria-hidden="true" style={{ marginLeft: "0.5rem" }}>→</span>
-              </Link>
-              <button
-                className="btn-outline"
-                style={{
-                  background: "var(--glass)",
-                  border: "1px solid var(--glass-border-2)",
-                  padding: "1rem 2rem",
-                }}
-              >
-                <span aria-hidden="true" style={{ marginRight: "0.5rem" }}>▷</span> See How It Works
-              </button>
+            {/* The Input Box */}
+            <div style={{ background: "var(--bg-panel)", border: "1px solid var(--glass-border)", borderRadius: "var(--radius-panel)", padding: "1rem", position: "relative", boxShadow: "0 10px 20px rgba(0,0,0,0.5)" }}>
+              {/* Tabs */}
+              <div style={{ display: "flex", gap: "1.5rem", marginBottom: "1rem", borderBottom: "1px solid var(--glass-border)", paddingBottom: "0.75rem" }}>
+                <span style={{ fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, letterSpacing: "0.1em", color: "var(--cyan)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--cyan)"><circle cx="12" cy="12" r="8"/></svg> ANALYZE TEXT
+                </span>
+                <span style={{ fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, letterSpacing: "0.1em", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="8"/></svg> ANALYZE URL
+                </span>
+              </div>
+              {/* Textarea */}
+              <textarea
+                value={inputVal}
+                onChange={e => setInputVal(e.target.value)}
+                placeholder="Paste suspicious email, message, or URL here..."
+                style={{ width: "100%", height: "120px", background: "transparent", border: "none", color: "var(--text-white)", fontSize: "1rem", resize: "none", outline: "none", fontFamily: "var(--font-dm-sans)" }}
+              />
+              {/* Bottom Row */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "1rem" }}>
+                <span style={{ fontSize: "0.6875rem", color: "var(--text-muted)", fontFamily: "var(--font-rajdhani)", letterSpacing: "0.05em" }}>
+                  {inputVal.length} / 12,000 CHARACTERS
+                </span>
+                <button
+                  onClick={handleAnalyze}
+                  className="btn-cyan-solid"
+                  style={{ padding: "0.75rem 1.5rem" }}
+                >
+                  ANALYZE THREAT
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+                </button>
+              </div>
             </div>
 
-            {/* Social Proof */}
-            <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
-              <div style={{ display: "flex", marginLeft: "0.5rem" }}>
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    style={{
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                      backgroundColor: "var(--glass-border)",
-                      border: "2px solid var(--bg)",
-                      marginLeft: "-0.5rem",
-                      zIndex: 5 - i,
-                      position: "relative",
-                      overflow: "hidden",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span style={{ fontSize: "0.5rem", color: "var(--text-3)" }}>👤</span>
-                  </div>
+            {/* Try a Sample */}
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "1.5rem" }}>
+              <span style={{ fontSize: "0.6875rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, letterSpacing: "0.05em", color: "var(--text-white)", textTransform: "uppercase" }}>TRY A SAMPLE:</span>
+              <div style={{ display: "flex", gap: "0.5rem" }}>
+                {["Fake Bank Alert", "Delivery Scam", "Prize Email", "Normal Message"].map(chip => (
+                  <button key={chip} style={{ background: "var(--bg-panel)", border: "1px solid var(--glass-border)", padding: "0.375rem 0.75rem", borderRadius: "4px", fontSize: "0.6875rem", color: "var(--text-muted)", cursor: "pointer", transition: "all 0.2s" }} onMouseEnter={e => e.currentTarget.style.color="var(--text-white)"} onMouseLeave={e => e.currentTarget.style.color="var(--text-muted)"}>
+                    {chip}
+                  </button>
                 ))}
-              </div>
-              <div>
-                <div style={{ color: "#F59E0B", fontSize: "0.875rem", letterSpacing: "0.1em", marginBottom: "0.125rem" }}>★★★★★</div>
-                <div style={{ fontSize: "0.75rem", color: "var(--text-2)", lineHeight: 1.4 }}>
-                  Trusted by security-conscious teams<br />and professionals
-                </div>
               </div>
             </div>
 
           </div>
 
-          {/* ── RIGHT COLUMN: CSS Dashboard Mockup ── */}
-          <div style={{ position: "relative", perspective: "1000px" }}>
+          {/* ── RIGHT COLUMN: CSS Cyber Dashboard ── */}
+          <div style={{ position: "relative" }}>
             
-            {/* The Window Frame */}
-            <div
-              style={{
-                width: "100%",
-                background: "var(--bg-2)",
-                borderRadius: "16px",
-                boxShadow: "0 25px 50px -12px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)",
-                overflow: "hidden",
-                transform: "rotateY(-5deg) rotateX(2deg)",
-                transformStyle: "preserve-3d",
-                animation: "float 6s ease-in-out infinite",
-              }}
-            >
-              {/* macOS Window Controls */}
-              <div style={{ display: "flex", gap: "6px", padding: "16px" }}>
-                <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#FF5F56" }} />
-                <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#FFBD2E" }} />
-                <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#27C93F" }} />
+            <div className="cyber-panel" style={{ display: "flex", overflow: "hidden", minHeight: "650px" }}>
+              
+              {/* Sidebar */}
+              <div style={{ width: "60px", background: "var(--bg-panel-2)", borderRight: "1px solid var(--glass-border)", display: "flex", flexDirection: "column", alignItems: "center", padding: "1.5rem 0", gap: "2rem" }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-white)" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", color: "var(--text-muted)" }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div style={{ marginTop: "auto", color: "var(--text-muted)" }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </div>
               </div>
 
-              {/* Mockup Content Area */}
-              <div style={{ padding: "0 24px 24px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+              {/* Main Dashboard Area */}
+              <div style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
                 
-                {/* Gauge Box */}
-                <div style={{ padding: "20px", border: "1px solid var(--glass-border)", borderRadius: "12px", textAlign: "center" }}>
-                  <p style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--text-1)", textAlign: "left", marginBottom: "2rem" }}>Risk Overview</p>
-                  
-                  {/* CSS Semi-circle Gauge */}
-                  <div style={{ position: "relative", width: "160px", height: "80px", margin: "0 auto", overflow: "hidden" }}>
-                    {/* Background track */}
-                    <div style={{ position: "absolute", top: 0, left: 0, width: "160px", height: "160px", borderRadius: "50%", border: "12px solid var(--bg-3)", boxSizing: "border-box" }} />
-                    {/* Fill */}
-                    <div style={{ position: "absolute", top: 0, left: 0, width: "160px", height: "160px", borderRadius: "50%", border: "12px solid var(--danger)", borderBottomColor: "transparent", borderRightColor: "transparent", transform: "rotate(45deg)", boxSizing: "border-box" }} />
+                {/* Header Strip */}
+                <div style={{ borderBottom: "1px solid var(--glass-border)", padding: "1rem 1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--text-muted)", fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", letterSpacing: "0.05em" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    / ANALYSIS REPORT
                   </div>
-                  
-                  <div style={{ marginTop: "-20px" }}>
-                    <span style={{ fontSize: "3rem", fontWeight: 700, color: "var(--text-1)", lineHeight: 1 }}>72</span>
-                    <span style={{ fontSize: "0.875rem", color: "var(--text-3)", fontWeight: 500 }}> / 100</span>
-                  </div>
-
-                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem", fontSize: "0.75rem", fontWeight: 600 }}>
-                    <span style={{ color: "var(--safe)" }}>Low Risk</span>
-                    <span style={{ color: "var(--danger)" }}>High Risk</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--text-muted)", fontSize: "0.6875rem" }}>
+                    <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--cyan)", boxShadow: "0 0 5px var(--cyan)" }} />
+                    Analyzed 2 mins ago
                   </div>
                 </div>
 
-                {/* Verdict Box */}
-                <div>
-                  <div style={{ padding: "20px", border: "1px solid var(--glass-border)", borderRadius: "12px", marginBottom: "16px" }}>
-                    <span style={{ display: "inline-block", fontSize: "0.625rem", fontWeight: 700, color: "var(--text-3)", background: "var(--bg-3)", padding: "4px 8px", borderRadius: "4px", marginBottom: "0.75rem", textTransform: "uppercase" }}>Verdict</span>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                      <h3 style={{ fontSize: "1.75rem", color: "var(--danger)", fontWeight: 700, margin: 0 }}>Dangerous</h3>
-                      <div style={{ color: "var(--danger)" }}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                          <line x1="12" y1="9" x2="12" y2="13"/>
-                          <line x1="12" y1="17" x2="12.01" y2="17"/>
+                {/* Dashboard Body */}
+                <div style={{ padding: "1.5rem", flexGrow: 1, display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                  
+                  {/* Top Row: Verdict & Gauge */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                    
+                    {/* Verdict */}
+                    <div style={{ paddingRight: "1.5rem", borderRight: "1px solid var(--glass-border)" }}>
+                      <span style={{ fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em" }}>VERDICT</span>
+                      <h2 style={{ fontSize: "2.5rem", color: "var(--red)", lineHeight: 1.1, marginTop: "0.5rem", marginBottom: "0.5rem", textShadow: "0 0 10px var(--red-dim)" }}>DANGEROUS</h2>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                        <span style={{ fontSize: "0.875rem", color: "var(--text-muted)" }}>High risk phishing attempt detected</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                      </div>
+                    </div>
+
+                    {/* Risk Score */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div>
+                        <span style={{ fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em" }}>RISK SCORE</span>
+                        <div style={{ marginTop: "0.25rem", display: "flex", alignItems: "baseline" }}>
+                          <span style={{ fontSize: "3.5rem", fontFamily: "var(--font-rajdhani)", color: "var(--red)", fontWeight: 700, lineHeight: 1 }}>82</span>
+                          <span style={{ fontSize: "1rem", color: "var(--text-muted)" }}>/100</span>
+                        </div>
+                      </div>
+                      
+                      {/* Tech Circular Gauge */}
+                      <div style={{ position: "relative", width: "80px", height: "80px" }}>
+                        <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: "50%", border: "2px dashed var(--glass-border-light)", animation: "spin 20s linear infinite" }} />
+                        <div style={{ position: "absolute", top: "5px", left: "5px", width: "70px", height: "70px", borderRadius: "50%", border: "2px solid var(--red-dim)" }} />
+                        <div style={{ position: "absolute", top: "5px", left: "5px", width: "70px", height: "70px", borderRadius: "50%", border: "2px solid var(--red)", borderLeftColor: "transparent", borderBottomColor: "transparent", transform: "rotate(45deg)", boxShadow: "0 0 10px var(--red-dim)" }} />
+                        {/* Skull Icon */}
+                        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "var(--red)" }}>
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7.58 2 4 5.58 4 10c0 1.94.7 3.71 1.86 5.1L4 22h16l-1.86-6.9C19.3 13.71 20 11.94 20 10c0-4.42-3.58-8-8-8zm-2 10H8V9h2v3zm6 0h-2V9h2v3z"/></svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Middle Row: Threats & Simulation */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", flexGrow: 1 }}>
+                    
+                    {/* Top Threats */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                      <span style={{ fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", color: "var(--text-white)", textTransform: "uppercase", letterSpacing: "0.05em" }}>TOP THREATS DETECTED</span>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                        {[
+                          { title: "Credential Harvesting", desc: "Requests for login credentials", icon: "👤" },
+                          { title: "Urgency & Pressure", desc: "Manipulative urgency detected", icon: "⚡" },
+                          { title: "Brand Impersonation", desc: "Fake brand or domain mismatch", icon: "🛡️" },
+                          { title: "Suspicious URL", desc: "High risk URL pattern detected", icon: "🔗" },
+                        ].map((t, i) => (
+                          <div key={i} style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                            <div style={{ width: "32px", height: "32px", borderRadius: "6px", background: "var(--red-dim)", border: "1px solid var(--red-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--red)", fontSize: "0.875rem" }}>
+                              {t.icon}
+                            </div>
+                            <div>
+                              <div style={{ fontSize: "0.8125rem", color: "var(--text-white)", fontWeight: 500 }}>{t.title}</div>
+                              <div style={{ fontSize: "0.6875rem", color: "var(--text-muted)" }}>{t.desc}</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <span style={{ color: "var(--cyan)", fontSize: "0.75rem", fontWeight: 600, cursor: "pointer", marginTop: "auto" }}>View all techniques →</span>
+                    </div>
+
+                    {/* Attack Simulation */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: "1rem", background: "var(--bg-panel-2)", border: "1px solid var(--glass-border-light)", borderRadius: "8px", padding: "1.25rem", position: "relative", overflow: "hidden" }}>
+                      <span style={{ fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", color: "var(--cyan)", textTransform: "uppercase", letterSpacing: "0.05em", position: "relative", zIndex: 1 }}>ATTACK SIMULATION</span>
+                      <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>
+                        If you clicked the link and entered your credentials, they could be sent to the attacker's server. The attacker may then access your real account, lock you out, and use it for fraud or further attacks.
+                      </p>
+                      <span style={{ color: "var(--cyan)", fontSize: "0.75rem", fontWeight: 600, cursor: "pointer", position: "relative", zIndex: 1 }}>View full simulation →</span>
+                      
+                      {/* Fake Wireframe Graphic */}
+                      <div style={{ marginTop: "1rem", position: "relative", height: "80px" }}>
+                        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "100%", background: "linear-gradient(90deg, rgba(0,229,255,0.1), rgba(255,51,51,0.1))", borderRadius: "4px" }} />
+                        {/* Wireframe Nodes */}
+                        <div style={{ position: "absolute", top: "20px", left: "20px", width: "30px", height: "20px", border: "1px solid var(--cyan)", borderRadius: "2px", boxShadow: "0 0 5px var(--cyan)" }} />
+                        <div style={{ position: "absolute", top: "40px", right: "20px", width: "20px", height: "30px", border: "1px solid var(--red)", borderRadius: "2px", boxShadow: "0 0 5px var(--red)" }} />
+                        <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}>
+                          <path d="M 50 30 Q 120 10, 200 50" fill="none" stroke="var(--cyan-border)" strokeWidth="1" strokeDasharray="4 2" />
                         </svg>
                       </div>
                     </div>
-                    <p style={{ fontSize: "0.8125rem", color: "var(--text-2)", lineHeight: 1.5 }}>
-                      This content contains multiple high-risk signals often used in phishing attacks.
-                    </p>
                   </div>
 
-                  {/* Threat Card */}
-                  <div style={{ padding: "16px", background: "var(--danger-bg)", borderRadius: "12px", display: "flex", alignItems: "center", gap: "12px" }}>
-                    <div style={{ flexGrow: 1 }}>
-                      <span style={{ fontSize: "0.625rem", fontWeight: 700, color: "var(--danger)", textTransform: "uppercase" }}>Primary Threat</span>
-                      <h4 style={{ fontSize: "0.875rem", color: "var(--danger)", fontWeight: 700, margin: "2px 0 4px" }}>Credential Harvesting</h4>
-                      <p style={{ fontSize: "0.75rem", color: "var(--danger)", opacity: 0.8, lineHeight: 1.4 }}>
-                        Attackers may be attempting to steal your login credentials.
-                      </p>
-                    </div>
-                    <div style={{ width: "40px", height: "40px", background: "rgba(211,47,47,0.1)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <span style={{ fontSize: "1.25rem" }}>🕵️</span>
+                  {/* Bottom Row: Security Engines Summary */}
+                  <div style={{ borderTop: "1px solid var(--glass-border)", paddingTop: "1.25rem" }}>
+                    <span style={{ fontSize: "0.6875rem", fontFamily: "var(--font-rajdhani)", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", display: "block", marginBottom: "0.75rem" }}>SECURITY ENGINES SUMMARY</span>
+                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                      {[
+                        { name: "Domain Analysis", state: "Risky", color: "var(--red)" },
+                        { name: "URL Scanner", state: "Risky", color: "var(--red)" },
+                        { name: "Content AI", state: "Risky", color: "var(--red)" },
+                        { name: "Phishing Patterns", state: "Malicious", color: "var(--red)" },
+                      ].map((eng, i) => (
+                        <div key={i} style={{ flexGrow: 1, padding: "0.5rem 0.75rem", background: "var(--bg-panel-2)", border: "1px solid var(--glass-border-light)", borderRadius: "6px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            <span style={{ fontSize: "0.6875rem", color: "var(--text-white)", whiteSpace: "nowrap" }}>{eng.name}</span>
+                          </div>
+                          <div style={{ fontSize: "0.625rem", color: eng.color, marginTop: "0.25rem", fontWeight: 600 }}>{eng.state}</div>
+                        </div>
+                      ))}
+                      <div style={{ padding: "0.5rem 0.75rem", border: "1px solid var(--glass-border-light)", borderRadius: "6px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                        <span style={{ color: "var(--cyan)", fontSize: "0.875rem", fontWeight: 700 }}>+4</span>
+                        <span style={{ fontSize: "0.625rem", color: "var(--text-muted)" }}>More Engines</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Bottom Chips */}
-                <div style={{ gridColumn: "1 / -1", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginTop: "8px" }}>
-                  {[
-                    { icon: "⚡", title: "AI Analysis", desc: "Contextual understanding" },
-                    { icon: "⚙️", title: "Rule Engine", desc: "8/8 checks triggered" },
-                    { icon: "🛡️", title: "Attack Simulation", desc: "4-step scenario" },
-                    { icon: "🔍", title: "Actionable Guidance", desc: "Personalized steps" },
-                  ].map((chip, i) => (
-                    <div key={i} style={{ padding: "12px", border: "1px solid var(--glass-border)", borderRadius: "8px", background: "var(--bg)" }}>
-                      <div style={{ color: "var(--primary)", fontSize: "1rem", marginBottom: "8px" }}>{chip.icon}</div>
-                      <div style={{ fontSize: "0.6875rem", fontWeight: 700, color: "var(--text-1)" }}>{chip.title}</div>
-                      <div style={{ fontSize: "0.5625rem", color: "var(--text-3)", marginTop: "2px" }}>{chip.desc}</div>
-                    </div>
-                  ))}
                 </div>
-
               </div>
-            </div>
 
+            </div>
           </div>
 
         </div>

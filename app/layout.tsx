@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display } from "next/font/google";
+import { DM_Sans, Rajdhani } from "next/font/google";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -9,24 +9,23 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-const playfair = Playfair_Display({
+const rajdhani = Rajdhani({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-playfair",
+  weight: ["500", "600", "700"],
+  variable: "--font-rajdhani",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "PhishNet — AI-Powered Phishing Detection",
+  title: "PhishNet — AI-Powered Threat Defense",
   description:
-    "PhishNet combines Gemini AI with rule-based security checks to reveal phishing, manipulation, and hidden risk in emails, messages, and URLs.",
-  keywords: ["phishing detection", "AI security", "URL analysis", "email security", "cybersecurity"],
+    "PhishNet combines advanced AI reasoning with deterministic security engines to uncover phishing attempts before they reach you.",
+  keywords: ["phishing detection", "AI security", "cybersecurity", "threat intelligence"],
   authors: [{ name: "PhishNet" }],
   openGraph: {
-    title: "PhishNet — Know Before You Click",
+    title: "PhishNet — Detect the trap before it clicks",
     description:
-      "Analyze suspicious emails, messages or URLs instantly. Hybrid AI + deterministic phishing detection.",
+      "Advanced AI reasoning and 8 security engines for real-time threat defense.",
     type: "website",
   },
 };
@@ -37,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${playfair.variable} h-full`}>
+    <html lang="en" className={`${dmSans.variable} ${rajdhani.variable} h-full`}>
       <body className="min-h-full flex flex-col antialiased">
         {children}
       </body>

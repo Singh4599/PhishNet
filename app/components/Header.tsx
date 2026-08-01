@@ -12,7 +12,7 @@ export default function Header() {
         position: "sticky",
         top: 0,
         zIndex: 100,
-        backgroundColor: "rgba(250, 249, 246, 0.8)", // matches --bg but slightly translucent
+        backgroundColor: "rgba(10, 15, 18, 0.9)", // Dark background
         backdropFilter: "blur(12px)",
         borderBottom: "1px solid var(--glass-border)",
       }}
@@ -32,49 +32,63 @@ export default function Header() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "0.625rem",
+            gap: "0.75rem",
             textDecoration: "none",
           }}
         >
           <div
             style={{
-              width: "32px",
-              height: "32px",
-              borderRadius: "8px",
-              background: "transparent",
-              border: "2px solid var(--primary)",
+              color: "var(--cyan)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
             aria-hidden="true"
           >
-            {/* Minimal leaf/shield icon mimicking the design */}
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              <path d="M12 8v4" />
-              <path d="M12 16h.01" />
+            {/* Target Reticle Logo */}
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square">
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="12" r="3" fill="var(--red)" stroke="var(--red)" />
+              <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
             </svg>
           </div>
-          <span style={{ fontSize: "1.375rem", fontFamily: "var(--font-playfair), serif", fontWeight: 700, color: "var(--text-1)", letterSpacing: "-0.02em" }}>
-            PhishNet
-          </span>
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <span style={{ fontSize: "1.25rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, color: "var(--text-white)", letterSpacing: "0.05em", lineHeight: 1 }}>
+              PHISHNET
+            </span>
+            <span style={{ fontSize: "0.6rem", color: "var(--text-muted)", letterSpacing: "0.05em", marginTop: "2px", textTransform: "uppercase", fontWeight: 600 }}>
+              AI-Powered Threat Defense
+            </span>
+          </div>
         </Link>
 
         {/* Navigation */}
-        <nav style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-          <span style={{ fontSize: "0.9375rem", color: "var(--text-1)", fontWeight: 500, cursor: "pointer" }}>How It Works</span>
-          <span style={{ fontSize: "0.9375rem", color: "var(--text-1)", fontWeight: 500, cursor: "pointer" }}>Features</span>
+        <nav style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
+          {["PRODUCT", "HOW IT WORKS", "FEATURES", "RESOURCES", "FOR TEAMS", "PRICING"].map(link => (
+            <span key={link} style={{ fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, letterSpacing: "0.05em", color: "var(--text-white)", cursor: "pointer", textTransform: "uppercase" }}>
+              {link}
+            </span>
+          ))}
           
-          {pathname !== "/scan" && (
-            <Link
-              href="/scan"
-              className="btn-primary"
-              style={{ padding: "0.625rem 1.25rem", fontSize: "0.875rem", marginLeft: "1rem" }}
-            >
-              Open Analyzer
-            </Link>
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginLeft: "1rem" }}>
+            <span style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, letterSpacing: "0.05em", color: "var(--text-white)", cursor: "pointer" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              SIGN IN
+            </span>
+            {pathname !== "/scan" && (
+              <Link
+                href="/scan"
+                className="btn-cyan"
+              >
+                OPEN ANALYZER
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </Link>
+            )}
+          </div>
         </nav>
       </div>
     </header>
