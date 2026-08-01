@@ -10,7 +10,6 @@ export default function HeroSection() {
 
   const handleAnalyze = () => {
     if (inputVal.trim()) {
-      // In a real app we might pass this state, but for now just navigate
       router.push("/scan");
     }
   };
@@ -34,21 +33,20 @@ export default function HeroSection() {
             alignItems: "flex-start",
           }}
         >
-          {/* ── LEFT COLUMN: Copy & Input ── */}
+          {/* ── LEFT COLUMN: Copy & Input (Light Theme) ── */}
           <div style={{ paddingRight: "1rem", paddingTop: "1rem" }}>
             
-            {/* Cyber Badge */}
+            {/* Badge */}
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.75rem",
                 padding: "0.375rem 1rem",
-                border: "1px solid var(--cyan)",
+                border: "1px solid var(--cyan-border)",
                 borderRadius: "4px",
                 background: "var(--cyan-dim)",
                 marginBottom: "2rem",
-                boxShadow: "0 0 10px var(--cyan-dim), inset 0 0 10px var(--cyan-dim)",
               }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -72,18 +70,18 @@ export default function HeroSection() {
               }}
             >
               DETECT THE TRAP<br />
-              BEFORE IT <span style={{ color: "var(--red)", textShadow: "0 0 15px var(--red-dim)" }}>CLICKS.</span>
+              BEFORE IT <span style={{ color: "var(--red)" }}>CLICKS.</span>
             </h1>
 
             {/* Subtitle */}
             <p
               style={{
                 fontSize: "1.125rem",
-                color: "var(--text-white)",
+                color: "var(--text-muted)",
                 lineHeight: 1.6,
                 marginBottom: "2.5rem",
                 maxWidth: "90%",
-                fontWeight: 400,
+                fontWeight: 500,
               }}
             >
               PhishNet combines advanced AI reasoning with 8 deterministic
@@ -113,7 +111,7 @@ export default function HeroSection() {
               ].map((f, i) => (
                 <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
                   <div style={{ flexShrink: 0 }}>
-                    <div style={{ width: "36px", height: "36px", borderRadius: "8px", background: "var(--bg-panel)", border: "1px solid var(--cyan-border)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <div style={{ width: "36px", height: "36px", borderRadius: "8px", background: "var(--glass-bg)", border: "1px solid var(--cyan-border)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                       {f.icon}
                     </div>
                   </div>
@@ -126,7 +124,7 @@ export default function HeroSection() {
             </div>
 
             {/* The Input Box */}
-            <div style={{ background: "var(--bg-panel)", border: "1px solid var(--glass-border)", borderRadius: "var(--radius-panel)", padding: "1rem", position: "relative", boxShadow: "0 10px 20px rgba(0,0,0,0.5)" }}>
+            <div style={{ background: "#FFFFFF", border: "1px solid var(--glass-border-light)", borderRadius: "var(--radius-panel)", padding: "1rem", position: "relative", boxShadow: "0 10px 20px rgba(0,0,0,0.05)" }}>
               {/* Tabs */}
               <div style={{ display: "flex", gap: "1.5rem", marginBottom: "1rem", borderBottom: "1px solid var(--glass-border)", paddingBottom: "0.75rem" }}>
                 <span style={{ fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, letterSpacing: "0.1em", color: "var(--cyan)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
@@ -164,7 +162,7 @@ export default function HeroSection() {
               <span style={{ fontSize: "0.6875rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, letterSpacing: "0.05em", color: "var(--text-white)", textTransform: "uppercase" }}>TRY A SAMPLE:</span>
               <div style={{ display: "flex", gap: "0.5rem" }}>
                 {["Fake Bank Alert", "Delivery Scam", "Prize Email", "Normal Message"].map(chip => (
-                  <button key={chip} style={{ background: "var(--bg-panel)", border: "1px solid var(--glass-border)", padding: "0.375rem 0.75rem", borderRadius: "4px", fontSize: "0.6875rem", color: "var(--text-muted)", cursor: "pointer", transition: "all 0.2s" }} onMouseEnter={e => e.currentTarget.style.color="var(--text-white)"} onMouseLeave={e => e.currentTarget.style.color="var(--text-muted)"}>
+                  <button key={chip} style={{ background: "#FFFFFF", border: "1px solid var(--glass-border-light)", padding: "0.375rem 0.75rem", borderRadius: "4px", fontSize: "0.6875rem", color: "var(--text-muted)", cursor: "pointer", transition: "all 0.2s" }} onMouseEnter={e => e.currentTarget.style.color="var(--cyan)"} onMouseLeave={e => e.currentTarget.style.color="var(--text-muted)"}>
                     {chip}
                   </button>
                 ))}
@@ -173,7 +171,7 @@ export default function HeroSection() {
 
           </div>
 
-          {/* ── RIGHT COLUMN: CSS Cyber Dashboard ── */}
+          {/* ── RIGHT COLUMN: CSS Cyber Dashboard (Isolated Dark Theme) ── */}
           <div style={{ position: "relative" }}>
             
             <div className="cyber-panel" style={{ display: "flex", overflow: "hidden", minHeight: "650px" }}>

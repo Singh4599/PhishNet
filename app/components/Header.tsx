@@ -12,7 +12,7 @@ export default function Header() {
         position: "sticky",
         top: 0,
         zIndex: 100,
-        backgroundColor: "rgba(10, 15, 18, 0.9)", // Dark background
+        backgroundColor: "rgba(250, 249, 246, 0.9)", // Light background
         backdropFilter: "blur(12px)",
         borderBottom: "1px solid var(--glass-border)",
       }}
