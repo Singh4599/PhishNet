@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 
 const VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260729_102822_0e6c87e8-c141-4744-bf32-ad30db296371.mp4";
-const POSTER_URL = "/hero-poster.jpg"; // Assuming local or just load empty if not exists
+// Use a local fallback for the poster if available, otherwise just a dark color
+const POSTER_URL = "/hero-poster.jpg"; 
 
 export default function ScrollVideo() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,6 +56,9 @@ export default function ScrollVideo() {
       if (!videoRef.current) return;
       const vid = videoRef.current;
       
+      // Force initial frame render for fallback
+      vid.currentTime = 0.001;
+      
       if (vid.readyState < 2) {
         // Wait for loadeddata
         await new Promise((res) => vid.addEventListener("loadeddata", res, { once: true }));
@@ -67,58 +71,67 @@ export default function ScrollVideo() {
       state.current.duration = vid.duration || 5;
       const duration = state.current.duration;
       
-      // Max 90 frames or duration * 12, min 24
-      const frameCount = Math.max(24, Math.min(90, Math.floor(duration * 12)));
-      const interval = duration / frameCount;
+      try {
+        // Max 90 frames or duration * 12, min 24
+        const frameCount = Math.max(24, Math.min(90, Math.floor(duration * 12)));
+        const interval = duration / frameCount;
 
-      // Offscreen video for extraction
-      const offscreenVid = document.createElement("video");
-      offscreenVid.crossOrigin = "anonymous";
-      offscreenVid.src = VIDEO_URL;
-      offscreenVid.muted = true;
-      offscreenVid.playsInline = true;
-      offscreenVid.preload = "auto";
-      
-      await new Promise((res) => offscreenVid.addEventListener("loadeddata", res, { once: true }));
-
-      // Setup canvas for downscaling (max width 960px)
-      const extractCanvas = document.createElement("canvas");
-      const ctx = extractCanvas.getContext("2d");
-      
-      const aspect = offscreenVid.videoWidth / offscreenVid.videoHeight;
-      const targetWidth = Math.min(960, offscreenVid.videoWidth);
-      const targetHeight = targetWidth / aspect;
-      
-      extractCanvas.width = targetWidth;
-      extractCanvas.height = targetHeight;
-
-      if (!ctx) return;
-
-      const frames: ImageBitmap[] = [];
-      
-      for (let i = 0; i <= frameCount; i++) {
-        const time = Math.min(i * interval, duration - 0.05);
-        offscreenVid.currentTime = time;
+        // Offscreen video for extraction
+        const offscreenVid = document.createElement("video");
+        offscreenVid.crossOrigin = "anonymous";
+        offscreenVid.src = VIDEO_URL;
+        offscreenVid.muted = true;
+        offscreenVid.playsInline = true;
+        offscreenVid.preload = "auto";
         
-        await new Promise((res) => {
-          const onSeeked = () => {
-            offscreenVid.removeEventListener("seeked", onSeeked);
-            res(null);
-          };
-          offscreenVid.addEventListener("seeked", onSeeked);
-        });
+        // Add a timeout for offscreen video to prevent hanging on CORS blocks
+        await Promise.race([
+          new Promise((res) => offscreenVid.addEventListener("loadeddata", res, { once: true })),
+          new Promise((_, rej) => setTimeout(() => rej(new Error("Timeout loading offscreen video")), 5000))
+        ]);
 
-        ctx.drawImage(offscreenVid, 0, 0, targetWidth, targetHeight);
-        const bitmap = await createImageBitmap(extractCanvas);
-        frames.push(bitmap);
+        // Setup canvas for downscaling (max width 960px)
+        const extractCanvas = document.createElement("canvas");
+        const ctx = extractCanvas.getContext("2d", { willReadFrequently: true });
+        
+        const aspect = offscreenVid.videoWidth / offscreenVid.videoHeight;
+        const targetWidth = Math.min(960, offscreenVid.videoWidth);
+        const targetHeight = targetWidth / aspect;
+        
+        extractCanvas.width = targetWidth;
+        extractCanvas.height = targetHeight;
+
+        if (!ctx) return;
+
+        const frames: ImageBitmap[] = [];
+        
+        for (let i = 0; i <= frameCount; i++) {
+          const time = Math.min(i * interval, duration - 0.05);
+          offscreenVid.currentTime = time;
+          
+          await new Promise((res) => {
+            const onSeeked = () => {
+              offscreenVid.removeEventListener("seeked", onSeeked);
+              res(null);
+            };
+            offscreenVid.addEventListener("seeked", onSeeked);
+          });
+
+          ctx.drawImage(offscreenVid, 0, 0, targetWidth, targetHeight);
+          const bitmap = await createImageBitmap(extractCanvas);
+          frames.push(bitmap);
+        }
+
+        state.current.frames = frames;
+        state.current.extractionDone = true;
+        setIsCanvasReady(true);
+      } catch (err) {
+        console.warn("Frame extraction failed, using video fallback:", err);
+        // We leave extractionDone false, and it will use the fallback loop
       }
-
-      state.current.frames = frames;
-      state.current.extractionDone = true;
-      setIsCanvasReady(true);
     };
 
-    extractFrames().catch(console.error);
+    extractFrames().catch(err => console.warn("Extraction startup failed", err));
   }, []);
 
   // Render Loop
@@ -176,7 +189,9 @@ export default function ScrollVideo() {
         }
       } else if (!s.extractionDone && videoRef.current && s.duration > 0) {
         // Fallback: Seek video
-        const targetTime = s.smoothedProgress * (s.duration - 0.05);
+        let targetTime = s.smoothedProgress * (s.duration - 0.05);
+        if (targetTime < 0.001) targetTime = 0.001; // Avoid exact 0 which sometimes shows black
+        
         const delta = Math.abs(videoRef.current.currentTime - targetTime);
         if (delta > 0.04) {
           videoRef.current.currentTime = targetTime;
@@ -200,7 +215,9 @@ export default function ScrollVideo() {
         className={`absolute inset-0 transition-opacity duration-500 bg-[#0a0a0a] ${
           isPosterVisible ? "opacity-100" : "opacity-0"
         }`}
-      />
+      >
+        {/* If POSTER_URL exists, we could use an Image here. For now we use the dark bg fallback */}
+      </div>
 
       {/* 2. Video fallback */}
       <video
@@ -217,7 +234,7 @@ export default function ScrollVideo() {
       {/* 3. Canvas */}
       <canvas
         ref={canvasRef}
-        className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
           isCanvasReady ? "opacity-100" : "opacity-0"
         }`}
       />
