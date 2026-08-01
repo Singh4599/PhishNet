@@ -6,6 +6,7 @@
 
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
+import BottomFeaturesBar from "./components/BottomFeaturesBar";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -14,8 +15,8 @@ export default function Home() {
       <Header />
       
       <main style={{ minHeight: "calc(100vh - 70px)", display: "flex", flexDirection: "column" }}>
-        {/* The HeroSection now acts as the primary landing page content with a CTA to /scan */}
         <HeroSection />
+        <BottomFeaturesBar />
       </main>
 
       <Footer />
