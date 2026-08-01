@@ -51,11 +51,8 @@ export default function Header() {
         {/* Navigation */}
         <nav style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
           {[
-            { label: "PRODUCT", href: "#" },
             { label: "HOW IT WORKS", href: "#how-it-works" },
             { label: "FEATURES", href: "#features" },
-            { label: "FOR TEAMS", href: "#" },
-            { label: "PRICING", href: "#" },
           ].map(item => (
             <a
               key={item.label}
@@ -81,10 +78,6 @@ export default function Header() {
 
         {/* CTA */}
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <a href="#" style={{ fontSize: "0.75rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, letterSpacing: "0.06em", color: "var(--text-1)", textDecoration: "none", display: "flex", alignItems: "center", gap: "0.375rem" }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            SIGN IN
-          </a>
           {pathname !== "/scan" && (
             <Link href="/scan" className="btn-black">
               LAUNCH ANALYZER
