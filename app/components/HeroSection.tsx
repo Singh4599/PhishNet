@@ -75,7 +75,9 @@ export default function HeroSection() {
               PHISHING<br />EVOLVES.<br />
               <span style={{ color: "var(--red)", display: "inline-block", position: "relative" }}>
                 SO DO WE.
-                <span style={{ position: "absolute", bottom: "-4px", left: 0, right: 0, height: "3px", background: "linear-gradient(90deg, var(--red), transparent)", borderRadius: "2px" }} />
+                <svg style={{ position: "absolute", bottom: "-10px", left: 0, width: "100%", height: "12px", overflow: "visible" }} viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                  <path d="M2,10 Q50,0 100,5 T198,10" stroke="var(--red)" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
+                </svg>
               </span>
             </h1>
 
@@ -85,26 +87,6 @@ export default function HeroSection() {
               threat intelligence to detect, block and eliminate phishing
               threats before they reach you.
             </p>
-
-            {/* Feature pills */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginBottom: "3rem" }}>
-              {[
-                { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="12" r="3"/></svg>, title: "AI Powered Detection", desc: "Machine learning that adapts to new threats." },
-                { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>, title: "Real Time Protection", desc: "Stops threats the moment they appear." },
-                { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>, title: "Global Threat Intelligence", desc: "Always one step ahead of attackers." },
-                { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>, title: "Privacy First", desc: "Zero data stored. Your content stays private." },
-              ].map((f, i) => (
-                <div key={i} style={{ display: "flex", gap: "0.875rem", alignItems: "flex-start", padding: "1rem", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", background: "#FFFFFF", transition: "all 0.2s", cursor: "default" }} onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--red-border)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(211,47,47,0.06)"; }} onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}>
-                  <div style={{ width: "36px", height: "36px", borderRadius: "var(--radius-sm)", background: "var(--red-light)", border: "1px solid var(--red-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--red)", flexShrink: 0 }}>
-                    {f.svg}
-                  </div>
-                  <div>
-                    <h4 style={{ fontSize: "0.8125rem", fontFamily: "var(--font-rajdhani)", fontWeight: 800, color: "var(--text-1)", marginBottom: "0.25rem", letterSpacing: "0.02em" }}>{f.title}</h4>
-                    <p style={{ fontSize: "0.6875rem", color: "var(--text-3)", lineHeight: 1.5 }}>{f.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
 
             {/* Input Box */}
             <div
@@ -189,20 +171,20 @@ export default function HeroSection() {
                 priority
               />
               {/* Floating stats badges */}
-              <div style={{ position: "absolute", bottom: "10%", left: "-40px", background: "#FFFFFF", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", padding: "0.75rem 1rem", boxShadow: "var(--shadow-md)", display: "flex", alignItems: "center", gap: "0.625rem", zIndex: 10 }}>
-                <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--red-light)", border: "1px solid var(--red-border)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ position: "absolute", bottom: "10%", left: "-40px", background: "#0A0F12", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "var(--radius-md)", padding: "0.75rem 1rem", boxShadow: "0 20px 40px rgba(0,0,0,0.4)", display: "flex", alignItems: "center", gap: "0.625rem", zIndex: 10 }}>
+                <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(211,47,47,0.15)", border: "1px solid rgba(211,47,47,0.3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 </div>
                 <div>
-                  <div style={{ fontSize: "0.8125rem", fontFamily: "var(--font-rajdhani)", fontWeight: 800, color: "var(--text-1)" }}>10M+ Threats</div>
-                  <div style={{ fontSize: "0.5625rem", color: "var(--text-3)" }}>Detected daily</div>
+                  <div style={{ fontSize: "0.8125rem", fontFamily: "var(--font-rajdhani)", fontWeight: 800, color: "#FFFFFF" }}>10M+ Threats</div>
+                  <div style={{ fontSize: "0.5625rem", color: "rgba(255,255,255,0.5)" }}>Detected daily</div>
                 </div>
               </div>
-              <div style={{ position: "absolute", top: "12%", right: "-30px", background: "#FFFFFF", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", padding: "0.75rem 1rem", boxShadow: "var(--shadow-md)", display: "flex", alignItems: "center", gap: "0.625rem", zIndex: 10 }}>
+              <div style={{ position: "absolute", top: "12%", right: "-30px", background: "#0A0F12", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "var(--radius-md)", padding: "0.75rem 1rem", boxShadow: "0 20px 40px rgba(0,0,0,0.4)", display: "flex", alignItems: "center", gap: "0.625rem", zIndex: 10 }}>
                 <div style={{ fontSize: "1.25rem" }}>🎯</div>
                 <div>
-                  <div style={{ fontSize: "0.8125rem", fontFamily: "var(--font-rajdhani)", fontWeight: 800, color: "var(--text-1)" }}>99.9% Accuracy</div>
-                  <div style={{ fontSize: "0.5625rem", color: "var(--text-3)" }}>Detection rate</div>
+                  <div style={{ fontSize: "0.8125rem", fontFamily: "var(--font-rajdhani)", fontWeight: 800, color: "#FFFFFF" }}>99.9% Accuracy</div>
+                  <div style={{ fontSize: "0.5625rem", color: "rgba(255,255,255,0.5)" }}>Detection rate</div>
                 </div>
               </div>
             </div>
