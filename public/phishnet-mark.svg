@@ -1,0 +1,33 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 32 32"
+  fill="none"
+  aria-hidden="true"
+>
+  <!--
+    PhishNet logo mark — abstract protective network with connected nodes.
+    Three nodes connected by lines, arranged to suggest a shield-like
+    negative space. Custom SVG, not a stock icon.
+  -->
+
+  <!-- Connection lines between nodes -->
+  <line x1="16" y1="5" x2="5"  y2="21" stroke="#3B3564" stroke-width="1.75" stroke-linecap="round"/>
+  <line x1="16" y1="5" x2="27" y2="21" stroke="#3B3564" stroke-width="1.75" stroke-linecap="round"/>
+  <line x1="5"  y1="21" x2="27" y2="21" stroke="#3B3564" stroke-width="1.75" stroke-linecap="round"/>
+
+  <!-- Cross-link — gives the "net" feel -->
+  <line x1="16" y1="5" x2="16" y2="21" stroke="#3B3564" stroke-width="1.25" stroke-linecap="round" stroke-opacity="0.45"/>
+  <line x1="5"  y1="21" x2="27" y2="5"  stroke="#3B3564" stroke-width="1.25" stroke-linecap="round" stroke-opacity="0.25"/>
+
+  <!-- Top node — primary -->
+  <circle cx="16" cy="5"  r="3"   fill="#3B3564"/>
+
+  <!-- Bottom-left node -->
+  <circle cx="5"  cy="21" r="2.5" fill="#3B3564"/>
+
+  <!-- Bottom-right node -->
+  <circle cx="27" cy="21" r="2.5" fill="#3B3564"/>
+
+  <!-- Centre accent dot -->
+  <circle cx="16" cy="15" r="1.5" fill="#3B3564" fill-opacity="0.5"/>
+</svg>
