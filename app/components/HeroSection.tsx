@@ -3,12 +3,15 @@
 /**
  * components/HeroSection.tsx
  *
- * Full-impact hero with:
- * - Animated CSS gradient mesh background (no JS, no canvas)
- * - Cinematic headline with gradient text
+ * Light-theme compatible hero with:
+ * - Clean CSS gradient mesh background
+ * - High-contrast cinematic headline
+ * - Call to action (CTA) button to launch app
  * - Floating threat badges
  * - Trust indicators
  */
+
+import Link from "next/link";
 
 export default function HeroSection() {
   return (
@@ -16,12 +19,12 @@ export default function HeroSection() {
       style={{
         position: "relative",
         paddingTop: "clamp(4rem, 10vw, 7rem)",
-        paddingBottom: "clamp(2rem, 5vw, 4rem)",
+        paddingBottom: "clamp(4rem, 10vw, 7rem)", // Increased bottom padding for standalone look
         textAlign: "center",
         overflow: "hidden",
       }}
     >
-      {/* ── Animated gradient orbs ── */}
+      {/* ── Background ── */}
       <div aria-hidden="true" style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
         {/* Primary violet orb */}
         <div
@@ -32,7 +35,7 @@ export default function HeroSection() {
             transform: "translateX(-50%)",
             width: "700px",
             height: "500px",
-            background: "radial-gradient(ellipse at center, rgba(124,107,248,0.15) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse at center, rgba(124,107,248,0.1) 0%, transparent 70%)",
             animation: "glow-pulse 4s ease-in-out infinite",
           }}
         />
@@ -44,16 +47,16 @@ export default function HeroSection() {
             left: "-5%",
             width: "400px",
             height: "400px",
-            background: "radial-gradient(ellipse at center, rgba(6,182,212,0.08) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse at center, rgba(6,182,212,0.05) 0%, transparent 70%)",
             animation: "glow-pulse 6s ease-in-out infinite reverse",
           }}
         />
-        {/* Dot grid pattern */}
+        {/* Grid pattern (subtle for light mode) */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)`,
+            backgroundImage: `radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px)`,
             backgroundSize: "40px 40px",
             maskImage: "radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%)",
             WebkitMaskImage: "radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%)",
@@ -76,10 +79,11 @@ export default function HeroSection() {
             background: "var(--glass)",
             backdropFilter: "blur(10px)",
             marginBottom: "1.75rem",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.03)",
           }}
         >
-          <span style={{ fontSize: "0.5rem", animation: "pulse-dot 2s infinite" }} aria-hidden="true">●</span>
-          <span className="label-upper-primary" style={{ fontSize: "0.6875rem" }}>
+          <span style={{ fontSize: "0.5rem", color: "var(--primary)", animation: "pulse-dot 2s infinite" }} aria-hidden="true">●</span>
+          <span className="label-upper-primary" style={{ fontSize: "0.6875rem", color: "var(--primary)" }}>
             AI-Powered Phishing Defence · Gemini + Rule Engine
           </span>
         </div>
@@ -92,6 +96,7 @@ export default function HeroSection() {
             letterSpacing: "-0.035em",
             lineHeight: 1.05,
             marginBottom: "1.25rem",
+            color: "var(--text-1)",
           }}
         >
           <span className="gradient-text">
@@ -116,6 +121,21 @@ export default function HeroSection() {
           PhishNet runs <strong style={{ color: "var(--text-1)", fontWeight: 600 }}>8 deterministic rules</strong> then
           sends to <strong style={{ color: "var(--text-1)", fontWeight: 600 }}>Gemini AI</strong> — results in seconds.
         </p>
+
+        {/* CTA */}
+        <div style={{ marginBottom: "3rem" }}>
+          <Link
+            href="/scan"
+            className="btn-primary"
+            style={{
+              padding: "1rem 2.5rem",
+              fontSize: "1.125rem",
+              boxShadow: "0 10px 25px -5px var(--primary-glow)",
+            }}
+          >
+            Launch Web App <span aria-hidden="true" style={{ marginLeft: "0.5rem" }}>→</span>
+          </Link>
+        </div>
 
         {/* Floating threat badges */}
         <div
@@ -176,6 +196,7 @@ export default function HeroSection() {
                 gap: "0.375rem",
                 fontSize: "0.8125rem",
                 color: "var(--text-3)",
+                fontWeight: 500,
               }}
             >
               <span aria-hidden="true" style={{ fontSize: "0.875rem" }}>{icon}</span>

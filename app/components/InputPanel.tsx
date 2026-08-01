@@ -1,13 +1,7 @@
 "use client";
 
 /**
- * components/InputPanel.tsx — Dark premium input panel
- * - Text/URL toggle (pill segmented control)
- * - Large textarea with glow border on focus
- * - Animated analyse button with glow
- * - Error state
- * - NO demo presets (removed per spec)
- * - Character count
+ * components/InputPanel.tsx — Light premium input panel
  */
 
 import type { AnalysisType } from "@/lib/types";
@@ -51,11 +45,9 @@ export default function InputPanel({
         borderRadius: "var(--radius-card)",
         border: `1px solid ${focused ? "var(--primary)" : "var(--glass-border)"}`,
         background: "var(--glass)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
         boxShadow: focused
-          ? "0 0 0 3px var(--primary-glow-2), 0 20px 60px rgba(0,0,0,0.5)"
-          : "0 20px 60px rgba(0,0,0,0.3)",
+          ? "0 0 0 3px var(--primary-glow-2), 0 10px 25px rgba(0,0,0,0.05)"
+          : "0 10px 25px rgba(0,0,0,0.05)",
         transition: "border-color 0.2s ease, box-shadow 0.3s ease",
         overflow: "hidden",
       }}
@@ -69,6 +61,7 @@ export default function InputPanel({
           alignItems: "center",
           justifyContent: "space-between",
           gap: "1rem",
+          backgroundColor: "var(--bg-3)",
         }}
       >
         {/* Segmented control */}
@@ -77,7 +70,7 @@ export default function InputPanel({
           aria-label="Content type"
           style={{
             display: "flex",
-            background: "var(--bg-3)",
+            background: "var(--glass-border)",
             borderRadius: "0.5rem",
             padding: "3px",
             gap: "2px",
@@ -99,9 +92,9 @@ export default function InputPanel({
                 fontFamily: "inherit",
                 letterSpacing: "0.01em",
                 transition: "all 0.15s ease",
-                background: mode === t ? "var(--primary)" : "transparent",
-                color: mode === t ? "#fff" : "var(--text-3)",
-                boxShadow: mode === t ? "0 0 16px var(--primary-glow)" : "none",
+                background: mode === t ? "var(--bg-2)" : "transparent",
+                color: mode === t ? "var(--text-1)" : "var(--text-3)",
+                boxShadow: mode === t ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
               }}
             >
               {t === "text" ? "Text / Email" : "URL"}
@@ -115,6 +108,7 @@ export default function InputPanel({
             padding: "0.15em 0.45em",
             borderRadius: "4px",
             border: "1px solid var(--glass-border-2)",
+            backgroundColor: "var(--glass)",
             fontSize: "0.7em",
             fontFamily: "monospace",
             color: "var(--text-2)",
@@ -124,6 +118,7 @@ export default function InputPanel({
             padding: "0.15em 0.45em",
             borderRadius: "4px",
             border: "1px solid var(--glass-border-2)",
+            backgroundColor: "var(--glass)",
             fontSize: "0.7em",
             fontFamily: "monospace",
             color: "var(--text-2)",
@@ -164,8 +159,6 @@ export default function InputPanel({
             boxSizing: "border-box",
           }}
         />
-
-        {/* Placeholder styling via CSS */}
         <style>{`
           #content-input::placeholder { color: var(--text-3); }
           #content-input:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -181,6 +174,7 @@ export default function InputPanel({
           alignItems: "center",
           justifyContent: "space-between",
           gap: "1rem",
+          backgroundColor: "var(--bg)",
         }}
       >
         {/* Char count */}
@@ -225,8 +219,8 @@ export default function InputPanel({
                   display: "inline-block",
                   width: "14px",
                   height: "14px",
-                  border: "2px solid rgba(255,255,255,0.3)",
-                  borderTopColor: "#fff",
+                  border: "2px solid rgba(0,0,0,0.1)",
+                  borderTopColor: "currentColor",
                   borderRadius: "50%",
                   animation: "spin 0.7s linear infinite",
                   flexShrink: 0,

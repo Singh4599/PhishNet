@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * components/LoadingResult.tsx — Dark premium skeleton with scan animation
+ * components/LoadingResult.tsx — Light premium skeleton with scan animation
  */
 
 import { useEffect, useState } from "react";
@@ -32,7 +32,7 @@ export default function LoadingResult() {
       aria-live="polite"
       aria-label="Analysis in progress"
       className="glass-card"
-      style={{ overflow: "hidden" }}
+      style={{ overflow: "hidden", backgroundColor: "var(--bg-2)" }}
     >
       {/* Scan animation bar */}
       <div
@@ -65,6 +65,7 @@ export default function LoadingResult() {
           display: "flex",
           alignItems: "center",
           gap: "0.75rem",
+          backgroundColor: "var(--bg)",
         }}
       >
         <div
@@ -85,6 +86,7 @@ export default function LoadingResult() {
             fontSize: "0.875rem",
             color: "var(--text-2)",
             animation: "fadeIn 0.3s ease",
+            fontWeight: 500,
           }}
         >
           {MESSAGES[idx]}
@@ -102,7 +104,7 @@ export default function LoadingResult() {
         <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
           <Skel w="140px" h="0.7rem" />
           {[0, 1].map((i) => (
-            <div key={i} className="glass-card" style={{ padding: "0.875rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <div key={i} style={{ padding: "0.875rem", border: "1px solid var(--glass-border)", borderRadius: "var(--radius-btn)", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               <Skel w="160px" h="0.9375rem" />
               <Skel w="90%" h="0.875rem" />
               <Skel w="70%" h="0.875rem" />

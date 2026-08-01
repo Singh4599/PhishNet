@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * components/RecommendationList.tsx — Dark theme recommendations
+ * components/RecommendationList.tsx — Light theme recommendations
  */
 
 interface Props {
@@ -24,10 +24,11 @@ export default function RecommendationList({ recommendations }: Props) {
               alignItems: "flex-start",
               gap: "0.875rem",
               padding: "1rem",
-              backgroundColor: "var(--glass)",
+              backgroundColor: "var(--bg-2)",
               border: "1px solid var(--glass-border)",
               borderRadius: "0.5rem",
               animation: `fadeIn 0.4s ease ${i * 0.15}s both`,
+              boxShadow: "0 2px 4px rgba(0,0,0,0.02)",
             }}
           >
             <div
@@ -36,14 +37,13 @@ export default function RecommendationList({ recommendations }: Props) {
                 height: "24px",
                 borderRadius: "50%",
                 backgroundColor: "var(--primary-glow)",
-                color: "var(--primary-2)",
+                color: "var(--primary)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: "0.75rem",
                 fontWeight: 700,
                 flexShrink: 0,
-                border: "1px solid var(--primary-glow-2)",
               }}
               aria-hidden="true"
             >

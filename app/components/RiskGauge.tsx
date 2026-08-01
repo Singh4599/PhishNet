@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * components/RiskGauge.tsx — Animated dark risk gauge
+ * components/RiskGauge.tsx — Animated light risk gauge
  */
 
 import type { FinalAnalysis } from "@/lib/types";
@@ -25,15 +25,15 @@ export default function RiskGauge({ analysis }: Props) {
     verdict === "Suspicious" ? "var(--warning)" :
     "var(--safe)";
 
-  const fillGlow =
-    verdict === "Dangerous" ? "rgba(248,113,113,0.5)" :
-    verdict === "Suspicious" ? "rgba(251,191,36,0.5)" :
-    "rgba(52,211,153,0.5)";
+  const fillShadow =
+    verdict === "Dangerous" ? "rgba(220,38,38,0.3)" :
+    verdict === "Suspicious" ? "rgba(217,119,6,0.3)" :
+    "rgba(5,150,105,0.3)";
 
   return (
     <div
       style={{
-        padding: "1.25rem",
+        padding: "1.5rem",
         borderBottom: "1px solid var(--glass-border)",
       }}
     >
@@ -48,10 +48,11 @@ export default function RiskGauge({ analysis }: Props) {
         aria-label={`Risk level: ${risk_score} out of 100`}
         style={{
           position: "relative",
-          height: "8px",
+          height: "10px",
           borderRadius: "999px",
           background: "var(--bg-3)",
           overflow: "visible",
+          boxShadow: "inset 0 1px 2px rgba(0,0,0,0.05)",
         }}
       >
         {/* Fill */}
@@ -65,7 +66,7 @@ export default function RiskGauge({ analysis }: Props) {
             background: fillColor,
             width: mounted ? `${risk_score}%` : "0%",
             transition: "width 1s var(--ease-out-expo)",
-            boxShadow: mounted ? `0 0 12px ${fillGlow}` : "none",
+            boxShadow: mounted ? `0 2px 8px ${fillShadow}` : "none",
           }}
           aria-hidden="true"
         />
@@ -76,12 +77,12 @@ export default function RiskGauge({ analysis }: Props) {
             top: "50%",
             left: `${risk_score}%`,
             transform: "translate(-50%, -50%)",
-            width: "18px",
-            height: "18px",
+            width: "20px",
+            height: "20px",
             borderRadius: "50%",
-            background: fillColor,
-            border: "2px solid var(--bg)",
-            boxShadow: `0 0 0 3px ${fillGlow}, 0 2px 8px rgba(0,0,0,0.5)`,
+            background: "#ffffff",
+            border: `3px solid ${fillColor}`,
+            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
             transition: "left 1s var(--ease-out-expo)",
             zIndex: 1,
           }}
@@ -94,7 +95,7 @@ export default function RiskGauge({ analysis }: Props) {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          marginTop: "0.625rem",
+          marginTop: "0.875rem",
         }}
       >
         {[
@@ -109,9 +110,9 @@ export default function RiskGauge({ analysis }: Props) {
       </div>
 
       {/* Caption */}
-      <p style={{ marginTop: "0.75rem", fontSize: "0.8125rem", color: "var(--text-2)" }}>
+      <p style={{ marginTop: "1rem", fontSize: "0.875rem", color: "var(--text-2)", fontWeight: 500 }}>
         Score:{" "}
-        <strong style={{ color: fillColor, fontVariantNumeric: "tabular-nums" }}>{risk_score}</strong>
+        <strong style={{ color: fillColor, fontVariantNumeric: "tabular-nums", fontWeight: 700 }}>{risk_score}</strong>
         /100 —{" "}
         {risk_score < 30
           ? "Content appears safe."

@@ -1,9 +1,7 @@
 "use client";
 
 /**
- * components/ResultCard.tsx — Dark theme main results container
- * Orchestrates all result sections in a cohesive glassmorphism card.
- * (AttackSimulation has been removed per user request).
+ * components/ResultCard.tsx — Light theme main results container
  */
 
 import { useEffect, useRef } from "react";
@@ -39,7 +37,8 @@ export default function ResultCard({ analysis, onReset }: Props) {
       style={{
         overflow: "hidden",
         animation: "fadeUp 0.5s var(--ease-out-expo) forwards",
-        boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--glass-border-2)",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.03)",
+        backgroundColor: "var(--bg-2)",
       }}
       aria-label="Analysis Results"
     >
@@ -47,7 +46,7 @@ export default function ResultCard({ analysis, onReset }: Props) {
       <RiskGauge analysis={analysis} />
 
       {/* Social Engineering (Gemini) */}
-      <div style={{ padding: "1.25rem", borderBottom: "1px solid var(--glass-border)" }}>
+      <div style={{ padding: "1.25rem", borderBottom: "1px solid var(--glass-border)", backgroundColor: "var(--bg)" }}>
         <p className="label-upper" style={{ marginBottom: "1rem" }}>Social Engineering Tactics</p>
         
         {analysis.brand_impersonation?.detected && (
@@ -71,7 +70,7 @@ export default function ResultCard({ analysis, onReset }: Props) {
 
       <DeterministicFlags flags={analysis.deterministic_flags} />
       
-      <div style={{ borderTop: "1px solid var(--glass-border)" }}>
+      <div style={{ borderTop: "1px solid var(--glass-border)", backgroundColor: "var(--bg)" }}>
         <RecommendationList recommendations={analysis.recommendations} />
       </div>
 
@@ -80,16 +79,16 @@ export default function ResultCard({ analysis, onReset }: Props) {
         style={{
           padding: "1.25rem",
           borderTop: "1px solid var(--glass-border)",
-          backgroundColor: "rgba(0,0,0,0.2)",
+          backgroundColor: "var(--bg-3)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <div style={{ fontSize: "0.75rem", color: "var(--text-3)" }}>
-          Gemini Base: <span style={{ color: "var(--text-2)" }}>{analysis.gemini_risk_score}/100</span>
+        <div style={{ fontSize: "0.75rem", color: "var(--text-3)", fontWeight: 500 }}>
+          Gemini Base: <span style={{ color: "var(--text-1)" }}>{analysis.gemini_risk_score}/100</span>
           {" • "}
-          Engine Modifiers: <span style={{ color: "var(--text-2)" }}>+{analysis.deterministic_score}</span>
+          Engine Modifiers: <span style={{ color: "var(--text-1)" }}>+{analysis.deterministic_score}</span>
         </div>
         
         <button

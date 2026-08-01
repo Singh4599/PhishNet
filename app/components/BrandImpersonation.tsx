@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * components/BrandImpersonation.tsx — Dark theme brand warning
+ * components/BrandImpersonation.tsx — Light theme brand warning
  */
 
 import type { BrandImpersonation as BrandImpersonationType } from "@/lib/types";
@@ -37,7 +37,7 @@ export default function BrandImpersonation({ data }: Props) {
           alignItems: "center",
           justifyContent: "center",
           flexShrink: 0,
-          boxShadow: "0 0 20px rgba(248,113,113,0.4)",
+          boxShadow: "0 4px 12px rgba(220,38,38,0.3)",
         }}
         aria-hidden="true"
       >
@@ -58,7 +58,7 @@ export default function BrandImpersonation({ data }: Props) {
         <div
           style={{
             padding: "0.75rem",
-            backgroundColor: "rgba(0,0,0,0.2)",
+            backgroundColor: "rgba(255,255,255,0.6)",
             borderLeft: "3px solid var(--danger)",
             borderRadius: "0 4px 4px 0",
           }}

@@ -1,5 +1,7 @@
+"use client";
+
 /**
- * components/VerdictHeader.tsx — Premium dark verdict display
+ * components/VerdictHeader.tsx — Light premium verdict display
  */
 
 import type { FinalAnalysis } from "@/lib/types";
@@ -37,7 +39,7 @@ export default function VerdictHeader({ analysis }: Props) {
   return (
     <div
       style={{
-        padding: "1.375rem 1.25rem",
+        padding: "1.5rem",
         borderBottom: "1px solid var(--glass-border)",
         background: cfg.bg,
         display: "flex",
@@ -57,14 +59,14 @@ export default function VerdictHeader({ analysis }: Props) {
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              width: "28px",
-              height: "28px",
+              width: "32px",
+              height: "32px",
               borderRadius: "50%",
               background: cfg.color,
               color: "#fff",
-              fontSize: "0.8125rem",
+              fontSize: "0.875rem",
               fontWeight: 700,
-              boxShadow: `0 0 16px ${cfg.color}50`,
+              boxShadow: `0 4px 12px ${cfg.color}40`,
               flexShrink: 0,
             }}
             aria-hidden="true"
@@ -73,7 +75,7 @@ export default function VerdictHeader({ analysis }: Props) {
           </span>
           <span
             style={{
-              fontSize: "1.5rem",
+              fontSize: "1.75rem",
               fontWeight: 800,
               color: cfg.color,
               letterSpacing: "-0.025em",
@@ -84,7 +86,7 @@ export default function VerdictHeader({ analysis }: Props) {
           </span>
         </div>
 
-        <p style={{ fontSize: "0.9375rem", color: "var(--text-2)", lineHeight: 1.5 }}>
+        <p style={{ fontSize: "1rem", color: "var(--text-2)", lineHeight: 1.5, fontWeight: 500 }}>
           {cfg.summary}
         </p>
       </div>
@@ -94,19 +96,18 @@ export default function VerdictHeader({ analysis }: Props) {
         <span
           style={{
             display: "block",
-            fontSize: "3.25rem",
+            fontSize: "3.5rem",
             fontWeight: 800,
             color: cfg.color,
             lineHeight: 1,
             letterSpacing: "-0.04em",
             fontVariantNumeric: "tabular-nums",
-            textShadow: `0 0 24px ${cfg.color}60`,
           }}
           aria-label={`Risk score: ${analysis.risk_score} out of 100`}
         >
           {analysis.risk_score}
         </span>
-        <span style={{ fontSize: "0.75rem", color: "var(--text-3)", fontWeight: 500 }}>/ 100</span>
+        <span style={{ fontSize: "0.875rem", color: "var(--text-3)", fontWeight: 600 }}>/ 100</span>
       </div>
     </div>
   );

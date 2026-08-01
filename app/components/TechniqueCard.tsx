@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * components/TechniqueCard.tsx — Dark expandable technique card
+ * components/TechniqueCard.tsx — Light expandable technique card
  */
 
 import { useState } from "react";
@@ -20,10 +20,11 @@ export default function TechniqueCard({ technique, index }: Props) {
     <div
       style={{
         border: `1px solid ${open ? "var(--glass-border-2)" : "var(--glass-border)"}`,
-        borderRadius: "0.625rem",
+        borderRadius: "0.5rem",
         overflow: "hidden",
-        background: open ? "var(--glass-hover)" : "var(--glass)",
+        background: open ? "var(--bg-2)" : "var(--bg-3)",
         transition: "all 0.2s ease",
+        boxShadow: open ? "0 4px 6px rgba(0,0,0,0.02)" : "none",
       }}
     >
       <button
@@ -37,7 +38,7 @@ export default function TechniqueCard({ technique, index }: Props) {
           alignItems: "center",
           justifyContent: "space-between",
           gap: "0.75rem",
-          padding: "0.875rem 1rem",
+          padding: "1rem",
           border: "none",
           background: "transparent",
           cursor: "pointer",
@@ -69,14 +70,14 @@ export default function TechniqueCard({ technique, index }: Props) {
           aria-labelledby={id}
           style={{
             padding: "0 1rem 1rem",
-            borderTop: "1px solid var(--glass-border)",
-            paddingTop: "0.75rem",
             animation: "fadeIn 0.2s ease",
           }}
         >
-          <p style={{ fontSize: "0.875rem", color: "var(--text-2)", lineHeight: 1.7 }}>
-            {technique.explanation}
-          </p>
+          <div style={{ paddingTop: "0.75rem", borderTop: "1px solid var(--glass-border)" }}>
+            <p style={{ fontSize: "0.875rem", color: "var(--text-2)", lineHeight: 1.7 }}>
+              {technique.explanation}
+            </p>
+          </div>
         </div>
       )}
     </div>

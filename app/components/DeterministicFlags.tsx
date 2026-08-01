@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * components/DeterministicFlags.tsx — Dark theme engine checks
+ * components/DeterministicFlags.tsx — Light theme engine checks
  */
 
 import type { DeterministicFlag } from "@/lib/types";
@@ -18,7 +18,7 @@ export default function DeterministicFlags({ flags }: Props) {
         <div
           style={{
             padding: "1rem",
-            backgroundColor: "var(--glass)",
+            backgroundColor: "var(--bg-3)",
             border: "1px dashed var(--glass-border-2)",
             borderRadius: "0.5rem",
             textAlign: "center",
@@ -49,6 +49,7 @@ export default function DeterministicFlags({ flags }: Props) {
               flexDirection: "column",
               gap: "0.5rem",
               animation: `fadeIn 0.3s ease ${i * 0.1}s both`,
+              boxShadow: "0 1px 3px rgba(0,0,0,0.02)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
@@ -64,6 +65,7 @@ export default function DeterministicFlags({ flags }: Props) {
                   padding: "0.15rem 0.5rem",
                   borderRadius: "var(--radius-pill)",
                   fontVariantNumeric: "tabular-nums",
+                  border: "1px solid var(--danger-border)",
                 }}
               >
                 +{flag.weight}
@@ -79,10 +81,10 @@ export default function DeterministicFlags({ flags }: Props) {
                 style={{
                   display: "block",
                   padding: "0.5rem 0.75rem",
-                  backgroundColor: "rgba(0,0,0,0.3)",
-                  border: "1px solid var(--glass-border)",
+                  backgroundColor: "var(--bg-3)",
+                  border: "1px solid var(--glass-border-2)",
                   borderRadius: "0.25rem",
-                  color: "var(--primary-2)",
+                  color: "var(--text-1)",
                   marginTop: "0.25rem",
                   overflowWrap: "break-word",
                   wordBreak: "break-all",
