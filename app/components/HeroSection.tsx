@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function HeroSection() {
   const router = useRouter();
   const [inputVal, setInputVal] = useState("");
+  const [focused, setFocused] = useState(false);
 
   const handleAnalyze = () => {
     if (inputVal.trim()) {
@@ -15,111 +15,151 @@ export default function HeroSection() {
     }
   };
 
+  const handleKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") handleAnalyze();
+  };
+
+  const loadSample = (text: string) => {
+    setInputVal(text);
+  };
+
+  const samples: Record<string, string> = {
+    "Fake Bank Alert": "URGENT: Your Chase account has been suspended. Verify immediately at chase-secure-login.net to restore access. Failure to do so will result in permanent account closure.",
+    "Delivery Scam": "Your package #UPS-4872991 is on hold due to a customs fee of $2.99. Pay now at ups-delivery-hold.com to release your shipment.",
+    "Prize Email": "Congratulations! You have been selected as our lucky winner. Click here to claim your $5,000 Amazon gift card: claimprize-now.tk",
+    "Normal Message": "Hi, just wanted to confirm our meeting tomorrow at 3pm. Let me know if you need to reschedule. Thanks!",
+  };
+
   return (
     <section
+      id="hero"
       style={{
         position: "relative",
-        paddingTop: "6rem",
-        paddingBottom: "4rem",
+        paddingTop: "7rem",
+        paddingBottom: "5rem",
         backgroundColor: "#FFFFFF",
         overflow: "hidden",
       }}
     >
+      {/* Subtle background grid */}
+      <div className="bg-grid" style={{ position: "absolute", inset: 0, opacity: 0.6, pointerEvents: "none" }} />
+
+      {/* Red glow blob */}
+      <div style={{ position: "absolute", top: "20%", right: "30%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(211,47,47,0.04) 0%, transparent 70%)", pointerEvents: "none" }} />
+
       <div className="content-width" style={{ position: "relative", zIndex: 1 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "2rem",
-          }}
-        >
-          {/* ── LEFT COLUMN: Text & Input ── */}
-          <div style={{ flex: "0 0 45%" }}>
-            
-            {/* Tech Badge */}
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.5rem", padding: "0.25rem 0.75rem", border: "1px solid #F3F4F6", borderRadius: "999px", background: "#FFFFFF" }}>
-              <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#D32F2F" }} />
-              <span style={{ fontSize: "0.625rem", fontFamily: "var(--font-rajdhani)", fontWeight: 700, color: "#4B5563", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                AI + BEHAVIORAL ANALYSIS + THREAT INTELLIGENCE
-              </span>
-              <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#D32F2F" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: "4rem" }}>
+
+          {/* ── LEFT COLUMN ── */}
+          <div style={{ flex: "0 0 46%", animation: "fadeInUp 0.6s var(--ease-out-expo) both" }}>
+
+            {/* Badge */}
+            <div className="section-badge" style={{ marginBottom: "2rem" }}>
+              <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--red)", animation: "pulseRed 2s infinite" }} />
+              AI + Behavioral Analysis + Threat Intelligence
             </div>
 
             {/* Headline */}
             <h1
               style={{
-                fontSize: "4rem",
+                fontSize: "clamp(3rem, 5vw, 4.5rem)",
                 fontFamily: "var(--font-rajdhani)",
                 fontWeight: 900,
-                color: "#0A0F12",
-                lineHeight: 1.05,
-                marginBottom: "1.5rem",
+                color: "var(--text-1)",
+                lineHeight: 1.03,
+                marginBottom: "1.75rem",
                 textTransform: "uppercase",
-                letterSpacing: "-0.02em"
+                letterSpacing: "-0.025em",
               }}
             >
-              PHISHING EVOLVES.<br />
-              <span style={{ color: "#D32F2F" }}>SO DO WE.</span>
+              PHISHING<br />EVOLVES.<br />
+              <span style={{ color: "var(--red)", display: "inline-block", position: "relative" }}>
+                SO DO WE.
+                <span style={{ position: "absolute", bottom: "-4px", left: 0, right: 0, height: "3px", background: "linear-gradient(90deg, var(--red), transparent)", borderRadius: "2px" }} />
+              </span>
             </h1>
 
             {/* Subtitle */}
-            <p
-              style={{
-                fontSize: "1.125rem",
-                color: "#4B5563",
-                lineHeight: 1.6,
-                marginBottom: "2.5rem",
-                fontWeight: 500,
-                maxWidth: "90%"
-              }}
-            >
-              PhishNet uses advanced AI, behavioral analytics and
-              real-time threat intelligence to detect, block and
-              eliminate phishing threats before they reach you.
+            <p style={{ fontSize: "1.0625rem", color: "var(--text-2)", lineHeight: 1.7, marginBottom: "2.5rem", maxWidth: "88%", fontWeight: 400 }}>
+              PhishNet uses advanced AI, behavioral analytics and real-time
+              threat intelligence to detect, block and eliminate phishing
+              threats before they reach you.
             </p>
 
-            {/* Feature Grid */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", marginBottom: "3rem" }}>
+            {/* Feature pills */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginBottom: "3rem" }}>
               {[
-                { icon: "🛡️", title: "AI POWERED DETECTION", desc: "Machine learning that adapts." },
-                { icon: "⚡", title: "REAL TIME PROTECTION", desc: "Stops threats in real-time." },
-                { icon: "🌐", title: "GLOBAL THREAT INTELLIGENCE", desc: "Always one step ahead." },
-                { icon: "🔒", title: "PRIVACY FIRST", desc: "Your data stays private." },
+                { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="12" r="3"/></svg>, title: "AI Powered Detection", desc: "Machine learning that adapts to new threats." },
+                { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>, title: "Real Time Protection", desc: "Stops threats the moment they appear." },
+                { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>, title: "Global Threat Intelligence", desc: "Always one step ahead of attackers." },
+                { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>, title: "Privacy First", desc: "Zero data stored. Your content stays private." },
               ].map((f, i) => (
-                <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
-                  <div style={{ width: "32px", height: "32px", borderRadius: "50%", border: "1px solid rgba(211,47,47,0.2)", display: "flex", alignItems: "center", justifyContent: "center", color: "#D32F2F", fontSize: "0.875rem", flexShrink: 0 }}>
-                    {f.icon}
+                <div key={i} style={{ display: "flex", gap: "0.875rem", alignItems: "flex-start", padding: "1rem", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", background: "#FFFFFF", transition: "all 0.2s", cursor: "default" }} onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--red-border)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(211,47,47,0.06)"; }} onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}>
+                  <div style={{ width: "36px", height: "36px", borderRadius: "var(--radius-sm)", background: "var(--red-light)", border: "1px solid var(--red-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--red)", flexShrink: 0 }}>
+                    {f.svg}
                   </div>
                   <div>
-                    <h4 style={{ fontSize: "0.6875rem", fontFamily: "var(--font-rajdhani)", fontWeight: 800, color: "#000000", marginBottom: "0.25rem", letterSpacing: "0.05em" }}>{f.title}</h4>
-                    <p style={{ fontSize: "0.625rem", color: "#6B7280" }}>{f.desc}</p>
+                    <h4 style={{ fontSize: "0.8125rem", fontFamily: "var(--font-rajdhani)", fontWeight: 800, color: "var(--text-1)", marginBottom: "0.25rem", letterSpacing: "0.02em" }}>{f.title}</h4>
+                    <p style={{ fontSize: "0.6875rem", color: "var(--text-3)", lineHeight: 1.5 }}>{f.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Input Box */}
-            <div style={{ background: "#FFFFFF", border: "1px solid #E5E7EB", borderRadius: "999px", padding: "0.5rem", paddingLeft: "1.5rem", display: "flex", alignItems: "center", boxShadow: "0 10px 30px rgba(0,0,0,0.03)", marginBottom: "1.5rem" }}>
-              <div style={{ color: "#D32F2F", marginRight: "0.75rem", display: "flex", alignItems: "center", justifyContent: "center", width: "24px", height: "24px", border: "1px dashed rgba(211,47,47,0.5)", borderRadius: "4px" }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-              </div>
+            <div
+              style={{
+                background: "#FFFFFF",
+                border: `1.5px solid ${focused ? "var(--red)" : "var(--border)"}`,
+                borderRadius: "var(--radius-pill)",
+                padding: "0.375rem 0.375rem 0.375rem 1.5rem",
+                display: "flex",
+                alignItems: "center",
+                boxShadow: focused ? "0 0 0 4px rgba(211,47,47,0.08)" : "var(--shadow-sm)",
+                marginBottom: "1.25rem",
+                transition: "all 0.25s",
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-4)" strokeWidth="2" style={{ flexShrink: 0, marginRight: "0.75rem" }}><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
               <input
                 value={inputVal}
                 onChange={e => setInputVal(e.target.value)}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+                onKeyDown={handleKey}
                 placeholder="Paste an email, link or message to analyze..."
-                style={{ flexGrow: 1, background: "transparent", border: "none", color: "#000000", fontSize: "0.875rem", outline: "none" }}
+                style={{
+                  flexGrow: 1,
+                  background: "transparent",
+                  border: "none",
+                  color: "var(--text-1)",
+                  fontSize: "0.9375rem",
+                  outline: "none",
+                  fontFamily: "var(--font-dm-sans)",
+                }}
               />
-              <button onClick={handleAnalyze} style={{ background: "rgba(211,47,47,0.05)", border: "1px solid rgba(211,47,47,0.2)", color: "#D32F2F", padding: "0.75rem 1.5rem", fontSize: "0.75rem", fontWeight: 700, borderRadius: "999px", transition: "all 0.2s" }}>
+              <button
+                onClick={handleAnalyze}
+                className="btn-red-solid"
+                style={{ fontSize: "0.8125rem", padding: "0.75rem 1.5rem" }}
+              >
                 ANALYZE →
               </button>
             </div>
 
             {/* Try a Sample */}
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-              <span style={{ fontSize: "0.6875rem", fontWeight: 700, color: "#D32F2F", textTransform: "uppercase" }}>TRY A SAMPLE:</span>
-              {["Fake Bank Alert", "Delivery Scam", "Prize Email", "Normal Message"].map(chip => (
-                <button key={chip} style={{ background: "#FFFFFF", border: "1px solid #E5E7EB", padding: "0.375rem 1rem", borderRadius: "999px", fontSize: "0.6875rem", color: "#4B5563", cursor: "pointer", fontWeight: 500, transition: "all 0.2s" }} onMouseEnter={e => e.currentTarget.style.color="#000000"} onMouseLeave={e => e.currentTarget.style.color="#4B5563"}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+              <span style={{ fontSize: "0.6875rem", fontFamily: "var(--font-rajdhani)", fontWeight: 800, color: "var(--red)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                TRY A SAMPLE:
+              </span>
+              {Object.keys(samples).map(chip => (
+                <button
+                  key={chip}
+                  onClick={() => loadSample(samples[chip])}
+                  style={{ background: "var(--bg-soft)", border: "1px solid var(--border)", padding: "0.3rem 0.875rem", borderRadius: "var(--radius-pill)", fontSize: "0.6875rem", color: "var(--text-2)", cursor: "pointer", fontWeight: 500, transition: "all 0.2s" }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--text-1)"; e.currentTarget.style.color = "var(--text-1)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-2)"; }}
+                >
                   {chip}
                 </button>
               ))}
@@ -127,16 +167,45 @@ export default function HeroSection() {
 
           </div>
 
-          {/* ── RIGHT COLUMN: Exact Terminal Image ── */}
-          <div style={{ flex: "0 0 50%", display: "flex", justifyContent: "flex-end" }}>
-            <Image 
-              src="/terminal.png" 
-              alt="Threat Analysis Dashboard" 
-              width={700} 
-              height={550} 
-              style={{ width: "100%", height: "auto", objectFit: "contain", filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.15))" }} 
-              priority
-            />
+          {/* ── RIGHT COLUMN: Terminal Dashboard ── */}
+          <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", animation: "fadeInUp 0.8s var(--ease-out-expo) 0.1s both" }}>
+            <div style={{ position: "relative", width: "100%" }}>
+              {/* Glow behind the image */}
+              <div style={{ position: "absolute", inset: "-20px", background: "radial-gradient(ellipse at center, rgba(211,47,47,0.06) 0%, transparent 70%)", borderRadius: "24px", zIndex: 0 }} />
+              <Image
+                src="/terminal.png"
+                alt="PhishNet Threat Analysis Dashboard"
+                width={700}
+                height={550}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  objectFit: "contain",
+                  borderRadius: "16px",
+                  filter: "drop-shadow(0 24px 48px rgba(0,0,0,0.12))",
+                  position: "relative",
+                  zIndex: 1,
+                }}
+                priority
+              />
+              {/* Floating stats badges */}
+              <div style={{ position: "absolute", bottom: "10%", left: "-40px", background: "#FFFFFF", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", padding: "0.75rem 1rem", boxShadow: "var(--shadow-md)", display: "flex", alignItems: "center", gap: "0.625rem", zIndex: 10 }}>
+                <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--red-light)", border: "1px solid var(--red-border)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--red)" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div>
+                  <div style={{ fontSize: "0.8125rem", fontFamily: "var(--font-rajdhani)", fontWeight: 800, color: "var(--text-1)" }}>10M+ Threats</div>
+                  <div style={{ fontSize: "0.5625rem", color: "var(--text-3)" }}>Detected daily</div>
+                </div>
+              </div>
+              <div style={{ position: "absolute", top: "12%", right: "-30px", background: "#FFFFFF", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", padding: "0.75rem 1rem", boxShadow: "var(--shadow-md)", display: "flex", alignItems: "center", gap: "0.625rem", zIndex: 10 }}>
+                <div style={{ fontSize: "1.25rem" }}>🎯</div>
+                <div>
+                  <div style={{ fontSize: "0.8125rem", fontFamily: "var(--font-rajdhani)", fontWeight: 800, color: "var(--text-1)" }}>99.9% Accuracy</div>
+                  <div style={{ fontSize: "0.5625rem", color: "var(--text-3)" }}>Detection rate</div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
