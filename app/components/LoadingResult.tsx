@@ -1,51 +1,29 @@
 "use client";
 
 /**
- * components/LoadingResult.tsx
- *
- * Skeleton loading state shown while the API call is in progress.
- * - Pulse skeletons for all result sections
- * - Rotating status text messages (5 messages, 1.2s interval)
+ * components/LoadingResult.tsx — Dark premium skeleton with scan animation
  */
 
 import { useEffect, useState } from "react";
 
-const STATUS_MESSAGES = [
-  "Running security checks…",
-  "Analysing link structure…",
-  "Sending to Gemini AI…",
+const MESSAGES = [
+  "Running rule-based security checks…",
+  "Extracting and analysing URLs…",
+  "Querying Gemini AI engine…",
   "Detecting social engineering…",
   "Merging risk signals…",
 ];
 
-function Skel({
-  width = "100%",
-  height = "1rem",
-  borderRadius = "4px",
-  style = {},
-}: {
-  width?: string;
-  height?: string;
-  borderRadius?: string;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <div
-      className="skeleton"
-      style={{ width, height, borderRadius, ...style }}
-      aria-hidden="true"
-    />
-  );
+function Skel({ w = "100%", h = "1rem", r = "6px" }: { w?: string; h?: string; r?: string }) {
+  return <div className="skeleton" style={{ width: w, height: h, borderRadius: r }} aria-hidden="true" />;
 }
 
 export default function LoadingResult() {
-  const [msgIndex, setMsgIndex] = useState(0);
+  const [idx, setIdx] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setMsgIndex((i) => (i + 1) % STATUS_MESSAGES.length);
-    }, 1200);
-    return () => clearInterval(interval);
+    const t = setInterval(() => setIdx((i) => (i + 1) % MESSAGES.length), 1200);
+    return () => clearInterval(t);
   }, []);
 
   return (
@@ -53,30 +31,48 @@ export default function LoadingResult() {
       role="status"
       aria-live="polite"
       aria-label="Analysis in progress"
-      style={{
-        backgroundColor: "var(--color-surface)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "var(--radius-card)",
-        overflow: "hidden",
-      }}
+      className="glass-card"
+      style={{ overflow: "hidden" }}
     >
-      {/* Status message header */}
+      {/* Scan animation bar */}
+      <div
+        style={{
+          position: "relative",
+          height: "2px",
+          background: "var(--bg-3)",
+          overflow: "hidden",
+        }}
+        aria-hidden="true"
+      >
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            height: "100%",
+            width: "40%",
+            background: "linear-gradient(90deg, transparent, var(--primary), transparent)",
+            animation: "scan 1.4s ease-in-out infinite",
+          }}
+        />
+      </div>
+
+      {/* Status message */}
       <div
         style={{
           padding: "1rem 1.25rem",
-          borderBottom: "1px solid var(--color-border)",
+          borderBottom: "1px solid var(--glass-border)",
           display: "flex",
           alignItems: "center",
-          gap: "0.625rem",
+          gap: "0.75rem",
         }}
       >
-        <span
+        <div
           style={{
-            display: "inline-block",
             width: "12px",
             height: "12px",
-            border: "2px solid var(--color-border)",
-            borderTopColor: "var(--color-primary)",
+            border: "2px solid var(--glass-border-2)",
+            borderTopColor: "var(--primary)",
             borderRadius: "50%",
             animation: "spin 0.7s linear infinite",
             flexShrink: 0,
@@ -84,89 +80,48 @@ export default function LoadingResult() {
           aria-hidden="true"
         />
         <span
-          key={msgIndex}
+          key={idx}
           style={{
             fontSize: "0.875rem",
-            fontWeight: 500,
-            color: "var(--color-text-secondary)",
+            color: "var(--text-2)",
             animation: "fadeIn 0.3s ease",
           }}
         >
-          {STATUS_MESSAGES[msgIndex]}
+          {MESSAGES[idx]}
         </span>
       </div>
 
-      {/* Skeleton body */}
+      {/* Skeletons */}
       <div style={{ padding: "1.5rem 1.25rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-
-        {/* Verdict row skeleton */}
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-          <Skel width="90px" height="28px" borderRadius="6px" />
-          <Skel width="180px" height="1.125rem" />
-          <Skel width="60px" height="2rem" borderRadius="6px" style={{ marginLeft: "auto" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <Skel w="80px" h="28px" r="8px" />
+          <Skel w="180px" h="1.125rem" />
+          <Skel w="64px" h="2.25rem" r="8px" />
         </div>
-
-        {/* Risk bar skeleton */}
-        <div>
-          <Skel width="100%" height="10px" borderRadius="999px" />
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "0.5rem" }}>
-            <Skel width="40px" height="0.75rem" />
-            <Skel width="40px" height="0.75rem" />
-            <Skel width="40px" height="0.75rem" />
-          </div>
-        </div>
-
-        {/* Technique cards skeleton */}
+        <Skel w="100%" h="8px" r="999px" />
         <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
-          <Skel width="120px" height="0.75rem" />
-          {[1, 2].map((i) => (
-            <div
-              key={i}
-              style={{
-                padding: "0.875rem",
-                border: "1px solid var(--color-border)",
-                borderRadius: "0.5rem",
-                display: "flex",
-                flexDirection: "column",
-                gap: "0.5rem",
-              }}
-            >
-              <Skel width="160px" height="0.9375rem" />
-              <Skel width="90%" height="0.875rem" />
-              <Skel width="70%" height="0.875rem" />
+          <Skel w="140px" h="0.7rem" />
+          {[0, 1].map((i) => (
+            <div key={i} className="glass-card" style={{ padding: "0.875rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              <Skel w="160px" h="0.9375rem" />
+              <Skel w="90%" h="0.875rem" />
+              <Skel w="70%" h="0.875rem" />
             </div>
           ))}
         </div>
-
-        {/* Attack simulation skeleton */}
-        <div
-          style={{
-            padding: "1rem",
-            border: "1px solid var(--color-border)",
-            borderRadius: "0.5rem",
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.5rem",
-          }}
-        >
-          <Skel width="140px" height="0.9375rem" />
-          <Skel width="100%" height="0.875rem" />
-          <Skel width="95%" height="0.875rem" />
-          <Skel width="80%" height="0.875rem" />
-        </div>
-
-        {/* Recommendations skeleton */}
         <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-          <Skel width="120px" height="0.75rem" />
-          {[1, 2, 3].map((i) => (
-            <Skel key={i} width={`${85 + i * 5}%`} height="0.875rem" />
+          <Skel w="120px" h="0.7rem" />
+          {[0, 1, 2].map((i) => (
+            <Skel key={i} w={`${85 + i * 4}%`} h="0.875rem" />
           ))}
         </div>
       </div>
 
       <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scan {
+          0% { left: -40%; }
+          100% { left: 100%; }
+        }
       `}</style>
     </div>
   );

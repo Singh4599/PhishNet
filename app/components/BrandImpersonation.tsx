@@ -1,62 +1,72 @@
+"use client";
+
 /**
- * components/BrandImpersonation.tsx
- * Only renders when brand_impersonation.detected === true.
+ * components/BrandImpersonation.tsx — Dark theme brand warning
  */
 
 import type { BrandImpersonation as BrandImpersonationType } from "@/lib/types";
 
 interface Props {
-  brand_impersonation: BrandImpersonationType;
+  data: BrandImpersonationType;
 }
 
-export default function BrandImpersonation({ brand_impersonation }: Props) {
-  if (!brand_impersonation.detected) return null;
+export default function BrandImpersonation({ data }: Props) {
+  if (!data.detected) return null;
 
   return (
     <div
       style={{
-        padding: "1rem",
-        border: "1px solid var(--color-danger)",
-        borderRadius: "0.5rem",
-        backgroundColor: "var(--color-danger-bg)",
+        padding: "1.25rem",
+        border: "1px solid var(--danger-border)",
+        borderRadius: "0.625rem",
+        backgroundColor: "var(--danger-bg)",
         display: "flex",
         alignItems: "flex-start",
-        gap: "0.75rem",
+        gap: "1rem",
+        animation: "fadeUp 0.4s ease-out 0.2s both",
       }}
     >
-      <span
-        style={{ fontSize: "1.125rem", flexShrink: 0, lineHeight: 1.3 }}
+      <div
+        style={{
+          width: "36px",
+          height: "36px",
+          borderRadius: "50%",
+          backgroundColor: "var(--danger)",
+          color: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexShrink: 0,
+          boxShadow: "0 0 20px rgba(248,113,113,0.4)",
+        }}
         aria-hidden="true"
       >
-        🎭
-      </span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="M12 8v4" />
+          <path d="M12 16h.01" />
+        </svg>
+      </div>
+
       <div>
-        <p className="label-upper" style={{ marginBottom: "0.25rem", color: "var(--color-danger)" }}>
-          Possible impersonation
+        <h4 style={{ fontSize: "1rem", fontWeight: 700, color: "var(--danger)", marginBottom: "0.375rem" }}>
+          Brand Impersonation Detected
+        </h4>
+        <p style={{ fontSize: "0.9375rem", color: "var(--text-1)", lineHeight: 1.6, marginBottom: "0.75rem" }}>
+          This content appears to be impersonating <strong>{data.brand}</strong>.
         </p>
-        {brand_impersonation.brand && (
-          <p
-            style={{
-              fontSize: "0.9375rem",
-              fontWeight: 600,
-              color: "var(--color-text-primary)",
-              marginBottom: "0.25rem",
-            }}
-          >
-            {brand_impersonation.brand}
+        <div
+          style={{
+            padding: "0.75rem",
+            backgroundColor: "rgba(0,0,0,0.2)",
+            borderLeft: "3px solid var(--danger)",
+            borderRadius: "0 4px 4px 0",
+          }}
+        >
+          <p style={{ fontSize: "0.875rem", color: "var(--text-2)", fontStyle: "italic" }}>
+            "{data.giveaway}"
           </p>
-        )}
-        {brand_impersonation.giveaway && (
-          <p
-            style={{
-              fontSize: "0.875rem",
-              color: "var(--color-text-secondary)",
-              lineHeight: 1.5,
-            }}
-          >
-            {brand_impersonation.giveaway}
-          </p>
-        )}
+        </div>
       </div>
     </div>
   );

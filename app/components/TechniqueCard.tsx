@@ -1,11 +1,7 @@
 "use client";
 
 /**
- * components/TechniqueCard.tsx
- * Expandable card for a single detected technique.
- * - Collapsed: shows name only
- * - Expanded: shows full explanation
- * - aria-expanded, keyboard accessible
+ * components/TechniqueCard.tsx — Dark expandable technique card
  */
 
 import { useState } from "react";
@@ -17,57 +13,48 @@ interface Props {
 }
 
 export default function TechniqueCard({ technique, index }: Props) {
-  const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
   const id = `technique-${index}`;
-  const panelId = `${id}-panel`;
 
   return (
     <div
       style={{
-        border: "1px solid var(--color-border)",
-        borderRadius: "0.5rem",
+        border: `1px solid ${open ? "var(--glass-border-2)" : "var(--glass-border)"}`,
+        borderRadius: "0.625rem",
         overflow: "hidden",
-        backgroundColor: "var(--color-surface)",
+        background: open ? "var(--glass-hover)" : "var(--glass)",
+        transition: "all 0.2s ease",
       }}
     >
-      {/* Toggle button */}
       <button
         id={id}
-        aria-expanded={expanded}
-        aria-controls={panelId}
-        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={open}
+        aria-controls={`${id}-panel`}
+        onClick={() => setOpen((v) => !v)}
         style={{
           display: "flex",
           width: "100%",
           alignItems: "center",
           justifyContent: "space-between",
           gap: "0.75rem",
-          padding: "0.75rem 0.875rem",
+          padding: "0.875rem 1rem",
           border: "none",
-          backgroundColor: "transparent",
+          background: "transparent",
           cursor: "pointer",
           textAlign: "left",
           fontFamily: "inherit",
         }}
       >
-        <span
-          style={{
-            fontSize: "0.875rem",
-            fontWeight: 600,
-            color: "var(--color-text-primary)",
-          }}
-        >
+        <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--text-1)" }}>
           {technique.name}
         </span>
-
-        {/* Chevron */}
         <span
           aria-hidden="true"
           style={{
+            color: "var(--text-3)",
             fontSize: "0.75rem",
-            color: "var(--color-text-secondary)",
             transition: "transform 0.2s ease",
-            transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
             flexShrink: 0,
           }}
         >
@@ -75,25 +62,19 @@ export default function TechniqueCard({ technique, index }: Props) {
         </span>
       </button>
 
-      {/* Expanded panel */}
-      {expanded && (
+      {open && (
         <div
-          id={panelId}
+          id={`${id}-panel`}
           role="region"
           aria-labelledby={id}
           style={{
-            padding: "0 0.875rem 0.875rem",
-            borderTop: "1px solid var(--color-border)",
+            padding: "0 1rem 1rem",
+            borderTop: "1px solid var(--glass-border)",
             paddingTop: "0.75rem",
+            animation: "fadeIn 0.2s ease",
           }}
         >
-          <p
-            style={{
-              fontSize: "0.875rem",
-              color: "var(--color-text-secondary)",
-              lineHeight: 1.65,
-            }}
-          >
+          <p style={{ fontSize: "0.875rem", color: "var(--text-2)", lineHeight: 1.7 }}>
             {technique.explanation}
           </p>
         </div>

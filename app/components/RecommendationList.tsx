@@ -1,6 +1,7 @@
+"use client";
+
 /**
- * components/RecommendationList.tsx
- * Ordered list of actionable recommendations from Gemini.
+ * components/RecommendationList.tsx — Dark theme recommendations
  */
 
 interface Props {
@@ -8,68 +9,52 @@ interface Props {
 }
 
 export default function RecommendationList({ recommendations }: Props) {
-  if (recommendations.length === 0) return null;
+  if (!recommendations || recommendations.length === 0) return null;
 
   return (
-    <div>
-      <p className="label-upper" style={{ marginBottom: "0.875rem" }}>
-        Recommendations
-      </p>
-      <ol
-        style={{
-          listStyle: "none",
-          padding: 0,
-          margin: 0,
-          display: "flex",
-          flexDirection: "column",
-          gap: "0.5rem",
-        }}
-      >
+    <div style={{ padding: "1.25rem" }}>
+      <p className="label-upper" style={{ marginBottom: "1rem" }}>Recommended Actions</p>
+      
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
         {recommendations.map((rec, i) => (
-          <li
+          <div
             key={i}
             style={{
               display: "flex",
               alignItems: "flex-start",
-              gap: "0.75rem",
-              padding: "0.75rem 0.875rem",
-              backgroundColor: "var(--color-surface)",
-              border: "1px solid var(--color-border)",
+              gap: "0.875rem",
+              padding: "1rem",
+              backgroundColor: "var(--glass)",
+              border: "1px solid var(--glass-border)",
               borderRadius: "0.5rem",
+              animation: `fadeIn 0.4s ease ${i * 0.15}s both`,
             }}
           >
-            {/* Number badge */}
-            <span
-              aria-hidden="true"
+            <div
               style={{
-                display: "inline-flex",
+                width: "24px",
+                height: "24px",
+                borderRadius: "50%",
+                backgroundColor: "var(--primary-glow)",
+                color: "var(--primary-2)",
+                display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                width: "20px",
-                height: "20px",
-                borderRadius: "50%",
-                backgroundColor: "var(--color-primary)",
-                color: "#fff",
-                fontSize: "0.6875rem",
+                fontSize: "0.75rem",
                 fontWeight: 700,
                 flexShrink: 0,
-                marginTop: "1px",
+                border: "1px solid var(--primary-glow-2)",
               }}
+              aria-hidden="true"
             >
               {i + 1}
-            </span>
-            <p
-              style={{
-                fontSize: "0.875rem",
-                color: "var(--color-text-primary)",
-                lineHeight: 1.6,
-              }}
-            >
+            </div>
+            <p style={{ fontSize: "0.875rem", color: "var(--text-1)", lineHeight: 1.5, paddingTop: "0.125rem" }}>
               {rec}
             </p>
-          </li>
+          </div>
         ))}
-      </ol>
+      </div>
     </div>
   );
 }

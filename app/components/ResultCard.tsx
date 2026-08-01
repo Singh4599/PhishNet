@@ -1,30 +1,18 @@
 "use client";
 
 /**
- * components/ResultCard.tsx
- *
- * Container that renders the complete analysis result in the required order:
- * 1. VerdictHeader
- * 2. RiskGauge
- * 3. Score Breakdown (hybrid: Gemini + deterministic)
- * 4. Brand Impersonation (conditional)
- * 5. Techniques Detected
- * 6. Rule-based Flags
- * 7. Attack Simulation
- * 8. Recommendations
- * 9. Reset button
- *
- * SECURITY: All data rendered via textContent equivalent props.
- * No dangerouslySetInnerHTML anywhere in this tree.
+ * components/ResultCard.tsx — Dark theme main results container
+ * Orchestrates all result sections in a cohesive glassmorphism card.
+ * (AttackSimulation has been removed per user request).
  */
 
+import { useEffect, useRef } from "react";
 import type { FinalAnalysis } from "@/lib/types";
 import VerdictHeader from "./VerdictHeader";
 import RiskGauge from "./RiskGauge";
 import TechniqueCard from "./TechniqueCard";
 import BrandImpersonation from "./BrandImpersonation";
 import DeterministicFlags from "./DeterministicFlags";
-import AttackSimulation from "./AttackSimulation";
 import RecommendationList from "./RecommendationList";
 
 interface Props {
@@ -33,236 +21,85 @@ interface Props {
 }
 
 export default function ResultCard({ analysis, onReset }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to result on mount
+  useEffect(() => {
+    if (containerRef.current) {
+      setTimeout(() => {
+        containerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, []);
+
   return (
     <div
-      id="result-card"
+      ref={containerRef}
+      className="glass-card"
       style={{
-        backgroundColor: "var(--color-surface)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "var(--radius-card)",
         overflow: "hidden",
-        animation: "resultFadeIn 0.4s ease",
+        animation: "fadeUp 0.5s var(--ease-out-expo) forwards",
+        boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--glass-border-2)",
       }}
+      aria-label="Analysis Results"
     >
-      {/* 1. Verdict header */}
       <VerdictHeader analysis={analysis} />
-
-      {/* 2. Risk gauge */}
       <RiskGauge analysis={analysis} />
 
-      {/* 3. Hybrid score breakdown */}
-      <div
-        style={{
-          padding: "1.25rem",
-          borderBottom: "1px solid var(--color-border)",
-          backgroundColor: "var(--color-background)",
-        }}
-      >
-        <p className="label-upper" style={{ marginBottom: "0.875rem" }}>
-          Score breakdown
-        </p>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.5rem",
-          }}
-        >
-          {[
-            {
-              label: "Gemini AI context analysis",
-              value: analysis.gemini_risk_score,
-              color: "var(--color-primary)",
-            },
-            {
-              label: "Rule-based security signals",
-              value: `+${analysis.deterministic_score}`,
-              color: "var(--color-warning)",
-            },
-          ].map(({ label, value, color }) => (
-            <div
-              key={label}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "1rem",
-                padding: "0.5rem 0.75rem",
-                borderRadius: "0.375rem",
-                border: "1px solid var(--color-border)",
-                backgroundColor: "var(--color-surface)",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "0.8125rem",
-                  color: "var(--color-text-secondary)",
-                }}
-              >
-                {label}
-              </span>
-              <span
-                style={{
-                  fontSize: "0.9375rem",
-                  fontWeight: 700,
-                  color,
-                  fontVariantNumeric: "tabular-nums",
-                }}
-              >
-                {value}
-              </span>
-            </div>
-          ))}
-
-          {/* Divider + Final */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "1rem",
-              padding: "0.5rem 0.75rem",
-              borderRadius: "0.375rem",
-              border: `1px solid ${
-                analysis.verdict === "Dangerous"
-                  ? "var(--color-danger)"
-                  : analysis.verdict === "Suspicious"
-                  ? "var(--color-warning)"
-                  : "var(--color-safe)"
-              }`,
-              backgroundColor:
-                analysis.verdict === "Dangerous"
-                  ? "var(--color-danger-bg)"
-                  : analysis.verdict === "Suspicious"
-                  ? "var(--color-warning-bg)"
-                  : "var(--color-safe-bg)",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "0.8125rem",
-                fontWeight: 600,
-                color: "var(--color-text-primary)",
-              }}
-            >
-              Final risk score
-            </span>
-            <span
-              style={{
-                fontSize: "1rem",
-                fontWeight: 700,
-                color:
-                  analysis.verdict === "Dangerous"
-                    ? "var(--color-danger)"
-                    : analysis.verdict === "Suspicious"
-                    ? "var(--color-warning)"
-                    : "var(--color-safe)",
-                fontVariantNumeric: "tabular-nums",
-              }}
-            >
-              {analysis.risk_score}
-            </span>
+      {/* Social Engineering (Gemini) */}
+      <div style={{ padding: "1.25rem", borderBottom: "1px solid var(--glass-border)" }}>
+        <p className="label-upper" style={{ marginBottom: "1rem" }}>Social Engineering Tactics</p>
+        
+        {analysis.brand_impersonation?.detected && (
+          <div style={{ marginBottom: "1rem" }}>
+            <BrandImpersonation data={analysis.brand_impersonation} />
           </div>
-        </div>
+        )}
+
+        {analysis.techniques_detected.length > 0 ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            {analysis.techniques_detected.map((t, i) => (
+              <TechniqueCard key={i} index={i} technique={t} />
+            ))}
+          </div>
+        ) : (
+          <p style={{ fontSize: "0.875rem", color: "var(--text-3)", fontStyle: "italic" }}>
+            No specific manipulation techniques detected.
+          </p>
+        )}
       </div>
 
-      {/* Result sections */}
-      <div style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-
-        {/* 4. Brand impersonation (conditional) */}
-        <BrandImpersonation brand_impersonation={analysis.brand_impersonation} />
-
-        {/* 5. Techniques detected */}
-        {analysis.techniques_detected.length > 0 && (
-          <div>
-            <p className="label-upper" style={{ marginBottom: "0.875rem" }}>
-              Techniques detected
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-              {analysis.techniques_detected.map((t, i) => (
-                <TechniqueCard key={i} technique={t} index={i} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* No techniques message for safe content */}
-        {analysis.techniques_detected.length === 0 && (
-          <div
-            style={{
-              padding: "0.75rem 1rem",
-              border: "1px solid var(--color-border)",
-              borderRadius: "0.5rem",
-              backgroundColor: "var(--color-background)",
-            }}
-          >
-            <p className="label-upper" style={{ marginBottom: "0.25rem" }}>
-              Techniques detected
-            </p>
-            <p style={{ fontSize: "0.875rem", color: "var(--color-text-secondary)" }}>
-              No social engineering techniques were identified.
-            </p>
-          </div>
-        )}
-
-        {/* 6. Rule-based flags */}
-        <DeterministicFlags flags={analysis.deterministic_flags} />
-
-        {/* 7. Attack simulation */}
-        <AttackSimulation attack_simulation={analysis.attack_simulation} />
-
-        {/* 8. Recommendations */}
+      <DeterministicFlags flags={analysis.deterministic_flags} />
+      
+      <div style={{ borderTop: "1px solid var(--glass-border)" }}>
         <RecommendationList recommendations={analysis.recommendations} />
       </div>
 
-      {/* 9. Reset button */}
+      {/* Footer Actions */}
       <div
         style={{
-          padding: "1rem 1.25rem",
-          borderTop: "1px solid var(--color-border)",
-          backgroundColor: "var(--color-background)",
+          padding: "1.25rem",
+          borderTop: "1px solid var(--glass-border)",
+          backgroundColor: "rgba(0,0,0,0.2)",
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
+        <div style={{ fontSize: "0.75rem", color: "var(--text-3)" }}>
+          Gemini Base: <span style={{ color: "var(--text-2)" }}>{analysis.gemini_risk_score}/100</span>
+          {" • "}
+          Engine Modifiers: <span style={{ color: "var(--text-2)" }}>+{analysis.deterministic_score}</span>
+        </div>
+        
         <button
-          id="reset-button"
           onClick={onReset}
-          style={{
-            padding: "0.5625rem 1.25rem",
-            borderRadius: "var(--radius-btn)",
-            border: "1px solid var(--color-border)",
-            backgroundColor: "var(--color-surface)",
-            color: "var(--color-text-secondary)",
-            fontSize: "0.875rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            fontFamily: "inherit",
-            transition: "all 0.15s ease",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.borderColor =
-              "var(--color-primary)";
-            (e.currentTarget as HTMLButtonElement).style.color =
-              "var(--color-primary)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.borderColor =
-              "var(--color-border)";
-            (e.currentTarget as HTMLButtonElement).style.color =
-              "var(--color-text-secondary)";
-          }}
+          className="btn-ghost"
+          aria-label="Start new analysis"
         >
-          ← Analyse another
+          <span aria-hidden="true">↺</span> Start New Analysis
         </button>
       </div>
-
-      <style>{`
-        @keyframes resultFadeIn {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </div>
   );
 }

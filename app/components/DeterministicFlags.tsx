@@ -1,6 +1,7 @@
+"use client";
+
 /**
- * components/DeterministicFlags.tsx
- * Rule-based check results — one row per triggered flag, plus empty state.
+ * components/DeterministicFlags.tsx — Dark theme engine checks
  */
 
 import type { DeterministicFlag } from "@/lib/types";
@@ -10,114 +11,89 @@ interface Props {
 }
 
 export default function DeterministicFlags({ flags }: Props) {
-  return (
-    <div>
-      <p className="label-upper" style={{ marginBottom: "0.875rem" }}>
-        Rule-based checks
-      </p>
-
-      {flags.length === 0 ? (
+  if (flags.length === 0) {
+    return (
+      <div style={{ padding: "1.25rem" }}>
+        <p className="label-upper" style={{ marginBottom: "1rem" }}>Engine Checks</p>
         <div
           style={{
-            padding: "0.875rem 1rem",
-            border: "1px solid var(--color-border)",
+            padding: "1rem",
+            backgroundColor: "var(--glass)",
+            border: "1px dashed var(--glass-border-2)",
             borderRadius: "0.5rem",
-            backgroundColor: "var(--color-safe-bg)",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.625rem",
+            textAlign: "center",
           }}
         >
-          <span aria-hidden="true" style={{ fontSize: "1rem" }}>✓</span>
-          <p
+          <span style={{ fontSize: "0.875rem", color: "var(--text-3)" }}>
+            Zero deterministic risk patterns found.
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: "1.25rem" }}>
+      <p className="label-upper" style={{ marginBottom: "1rem" }}>Engine Checks</p>
+      
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+        {flags.map((flag, i) => (
+          <div
+            key={flag.id}
             style={{
-              fontSize: "0.875rem",
-              color: "var(--color-safe)",
-              fontWeight: 500,
+              padding: "1rem",
+              backgroundColor: "var(--bg-2)",
+              border: "1px solid var(--glass-border)",
+              borderRadius: "0.5rem",
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.5rem",
+              animation: `fadeIn 0.3s ease ${i * 0.1}s both`,
             }}
           >
-            No structural security flags were triggered.
-          </p>
-        </div>
-      ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-          {flags.map((flag) => (
-            <div
-              key={flag.id}
-              style={{
-                padding: "0.875rem 1rem",
-                border: "1px solid var(--color-border)",
-                borderRadius: "0.5rem",
-                backgroundColor: "var(--color-surface)",
-              }}
-            >
-              <div
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
+              <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--text-1)" }}>
+                {flag.name}
+              </span>
+              <span
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "0.75rem",
-                  marginBottom: flag.evidence || flag.description ? "0.375rem" : 0,
-                  flexWrap: "wrap",
+                  fontSize: "0.75rem",
+                  fontWeight: 700,
+                  color: "var(--danger)",
+                  backgroundColor: "var(--danger-bg)",
+                  padding: "0.15rem 0.5rem",
+                  borderRadius: "var(--radius-pill)",
+                  fontVariantNumeric: "tabular-nums",
                 }}
               >
-                <span
-                  style={{
-                    fontSize: "0.875rem",
-                    fontWeight: 600,
-                    color: "var(--color-text-primary)",
-                  }}
-                >
-                  {flag.name}
-                </span>
-                <span
-                  style={{
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    color: "var(--color-warning)",
-                    backgroundColor: "var(--color-warning-bg)",
-                    padding: "0.15rem 0.5rem",
-                    borderRadius: "999px",
-                    border: "1px solid var(--color-warning)",
-                    letterSpacing: "0.02em",
-                    whiteSpace: "nowrap",
-                    flexShrink: 0,
-                  }}
-                >
-                  +{flag.weight}
-                </span>
-              </div>
-
-              <p
-                style={{
-                  fontSize: "0.8125rem",
-                  color: "var(--color-text-secondary)",
-                  lineHeight: 1.55,
-                  marginBottom: flag.evidence ? "0.375rem" : 0,
-                }}
-              >
-                {flag.description}
-              </p>
-
-              {flag.evidence && (
-                <code
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "var(--color-danger)",
-                    backgroundColor: "var(--color-danger-bg)",
-                    padding: "0.15rem 0.5rem",
-                    borderRadius: "4px",
-                    wordBreak: "break-all",
-                    display: "inline-block",
-                  }}
-                >
-                  {flag.evidence}
-                </code>
-              )}
+                +{flag.weight}
+              </span>
             </div>
-          ))}
-        </div>
-      )}
+            
+            <p style={{ fontSize: "0.8125rem", color: "var(--text-2)", lineHeight: 1.6 }}>
+              {flag.description}
+            </p>
+            
+            {flag.evidence && (
+              <code
+                style={{
+                  display: "block",
+                  padding: "0.5rem 0.75rem",
+                  backgroundColor: "rgba(0,0,0,0.3)",
+                  border: "1px solid var(--glass-border)",
+                  borderRadius: "0.25rem",
+                  color: "var(--primary-2)",
+                  marginTop: "0.25rem",
+                  overflowWrap: "break-word",
+                  wordBreak: "break-all",
+                }}
+              >
+                {flag.evidence}
+              </code>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
