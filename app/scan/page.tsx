@@ -70,13 +70,24 @@ export default function ScanPage() {
     <>
       <Header />
       
-      <main style={{ minHeight: "calc(100vh - 70px)", display: "flex", flexDirection: "column", paddingTop: "3rem" }}>
+      <main style={{ position: "relative", minHeight: "calc(100vh - 72px)", display: "flex", flexDirection: "column", paddingTop: "4rem", backgroundColor: "#050505", overflow: "hidden" }}>
+        {/* Subtle grid and glow */}
+        <div className="bg-grid" style={{ position: "absolute", inset: 0, opacity: 0.1, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "-200px", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", borderRadius: "50%", background: "radial-gradient(circle, rgba(211,47,47,0.08) 0%, transparent 60%)", pointerEvents: "none" }} />
         
-        <div className="content-width" style={{ flexGrow: 1, paddingBottom: "5rem" }}>
+        <div className="content-width" style={{ flexGrow: 1, paddingBottom: "5rem", position: "relative", zIndex: 1, maxWidth: "1000px" }}>
           
-          <div style={{ marginBottom: "2rem", textAlign: "center" }}>
-            <h1 style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>Analyze Content</h1>
-            <p style={{ color: "var(--text-2)" }}>Paste any suspicious message or URL to run it through the PhishNet engine.</p>
+          <div style={{ marginBottom: "3rem", textAlign: "center", animation: "fadeInUp 0.6s var(--ease-out-expo) both" }}>
+            <div className="section-badge" style={{ marginBottom: "1.25rem", display: "inline-flex", background: "rgba(211,47,47,0.1)", border: "1px solid rgba(211,47,47,0.25)" }}>
+              <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--red)", animation: "pulseRed 2s infinite" }} />
+              THREAT INTELLIGENCE ENGINE
+            </div>
+            <h1 style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)", fontFamily: "var(--font-rajdhani)", fontWeight: 900, color: "#FFFFFF", textTransform: "uppercase", letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1 }}>
+              INITIATE <span style={{ color: "var(--red)" }}>ANALYSIS</span>
+            </h1>
+            <p style={{ fontSize: "1.0625rem", color: "rgba(255,255,255,0.6)", maxWidth: "600px", margin: "0 auto", lineHeight: 1.6 }}>
+              Paste any suspicious message, email, or URL. Our 8 specialized AI engines will analyze the content in real-time and return a comprehensive threat verdict.
+            </p>
           </div>
 
           {viewState === "idle" && (

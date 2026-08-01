@@ -1,9 +1,5 @@
 "use client";
 
-/**
- * components/InputPanel.tsx — Light premium input panel
- */
-
 import type { AnalysisType } from "@/lib/types";
 import { MAX_CONTENT_LENGTH } from "@/lib/validation";
 import { useState } from "react";
@@ -42,26 +38,32 @@ export default function InputPanel({
   return (
     <div
       style={{
-        borderRadius: "var(--radius-card)",
-        border: `1px solid ${focused ? "var(--primary)" : "var(--glass-border)"}`,
-        background: "var(--glass)",
+        borderRadius: "var(--radius-lg)",
+        border: `1px solid ${focused ? "rgba(211,47,47,0.4)" : "rgba(255,255,255,0.08)"}`,
+        background: "rgba(10, 15, 18, 0.7)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
         boxShadow: focused
-          ? "0 0 0 3px var(--primary-glow-2), 0 10px 25px rgba(0,0,0,0.05)"
-          : "0 10px 25px rgba(0,0,0,0.05)",
-        transition: "border-color 0.2s ease, box-shadow 0.3s ease",
+          ? "0 0 0 4px rgba(211,47,47,0.1), 0 20px 40px rgba(0,0,0,0.5)"
+          : "0 20px 40px rgba(0,0,0,0.3)",
+        transition: "all 0.3s var(--ease-out-expo)",
         overflow: "hidden",
+        position: "relative"
       }}
     >
+      {/* Subtle top inner glow */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)" }} />
+
       {/* ── Mode toggle ── */}
       <div
         style={{
-          padding: "0.875rem 1.125rem",
-          borderBottom: "1px solid var(--glass-border)",
+          padding: "1rem 1.5rem",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           gap: "1rem",
-          backgroundColor: "var(--bg-3)",
+          background: "rgba(0,0,0,0.2)",
         }}
       >
         {/* Segmented control */}
@@ -70,68 +72,47 @@ export default function InputPanel({
           aria-label="Content type"
           style={{
             display: "flex",
-            background: "var(--glass-border)",
-            borderRadius: "0.5rem",
-            padding: "3px",
-            gap: "2px",
+            background: "rgba(0,0,0,0.4)",
+            border: "1px solid rgba(255,255,255,0.05)",
+            borderRadius: "var(--radius-pill)",
+            padding: "4px",
+            gap: "4px",
           }}
         >
           {(["text", "url"] as const).map((t) => (
             <button
               key={t}
-              id={`mode-${t}`}
               onClick={() => onModeChange(t)}
               aria-pressed={mode === t}
               style={{
-                padding: "0.3rem 0.875rem",
-                borderRadius: "0.375rem",
+                padding: "0.4rem 1.25rem",
+                borderRadius: "var(--radius-pill)",
                 border: "none",
                 cursor: "pointer",
-                fontSize: "0.8125rem",
-                fontWeight: 600,
-                fontFamily: "inherit",
-                letterSpacing: "0.01em",
-                transition: "all 0.15s ease",
-                background: mode === t ? "var(--bg-2)" : "transparent",
-                color: mode === t ? "var(--text-1)" : "var(--text-3)",
-                boxShadow: mode === t ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
+                fontSize: "0.75rem",
+                fontFamily: "var(--font-rajdhani)",
+                fontWeight: 700,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+                transition: "all 0.2s ease",
+                background: mode === t ? "rgba(255,255,255,0.1)" : "transparent",
+                color: mode === t ? "#FFFFFF" : "rgba(255,255,255,0.4)",
+                boxShadow: mode === t ? "0 2px 8px rgba(0,0,0,0.2)" : "none",
               }}
             >
-              {t === "text" ? "Text / Email" : "URL"}
+              {t === "text" ? "TEXT / EMAIL" : "URL"}
             </button>
           ))}
         </div>
 
         {/* Hint */}
-        <span style={{ fontSize: "0.75rem", color: "var(--text-3)" }}>
-          <kbd style={{
-            padding: "0.15em 0.45em",
-            borderRadius: "4px",
-            border: "1px solid var(--glass-border-2)",
-            backgroundColor: "var(--glass)",
-            fontSize: "0.7em",
-            fontFamily: "monospace",
-            color: "var(--text-2)",
-          }}>⌘</kbd>
-          {" "}
-          <kbd style={{
-            padding: "0.15em 0.45em",
-            borderRadius: "4px",
-            border: "1px solid var(--glass-border-2)",
-            backgroundColor: "var(--glass)",
-            fontSize: "0.7em",
-            fontFamily: "monospace",
-            color: "var(--text-2)",
-          }}>↵</kbd>
-          {" "}to submit
+        <span style={{ fontSize: "0.6875rem", color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-rajdhani)", fontWeight: 600, letterSpacing: "0.05em" }}>
+          PRESS <kbd style={{ padding: "0.2em 0.5em", borderRadius: "4px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>⌘</kbd> + <kbd style={{ padding: "0.2em 0.5em", borderRadius: "4px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>ENTER</kbd> TO ANALYZE
         </span>
       </div>
 
       {/* ── Textarea ── */}
       <div style={{ position: "relative" }}>
-        <label htmlFor="content-input" className="sr-only">
-          {mode === "text" ? "Message or email content" : "URL to analyse"}
-        </label>
         <textarea
           id="content-input"
           value={content}
@@ -141,26 +122,23 @@ export default function InputPanel({
           onBlur={() => setFocused(false)}
           placeholder={placeholder}
           disabled={isLoading}
-          aria-label={mode === "text" ? "Message or email content" : "URL to analyse"}
-          aria-describedby="char-count content-error"
           style={{
             width: "100%",
-            minHeight: "200px",
-            padding: "1.25rem 1.25rem",
+            minHeight: "260px",
+            padding: "1.5rem",
             border: "none",
             outline: "none",
             resize: "vertical",
             fontSize: "0.9375rem",
             lineHeight: 1.7,
-            fontFamily: "inherit",
-            color: "var(--text-1)",
+            fontFamily: "var(--font-dm-sans)",
+            color: "#FFFFFF",
             background: "transparent",
-            transition: "background 0.2s",
             boxSizing: "border-box",
           }}
         />
         <style>{`
-          #content-input::placeholder { color: var(--text-3); }
+          #content-input::placeholder { color: rgba(255,255,255,0.2); }
           #content-input:disabled { opacity: 0.5; cursor: not-allowed; }
         `}</style>
       </div>
@@ -168,48 +146,47 @@ export default function InputPanel({
       {/* ── Footer ── */}
       <div
         style={{
-          padding: "0.875rem 1.125rem",
-          borderTop: "1px solid var(--glass-border)",
+          padding: "1rem 1.5rem",
+          borderTop: "1px solid rgba(255,255,255,0.06)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: "1rem",
-          backgroundColor: "var(--bg)",
+          background: "rgba(0,0,0,0.2)",
         }}
       >
         {/* Char count */}
         <span
-          id="char-count"
           style={{
             fontSize: "0.75rem",
-            fontVariantNumeric: "tabular-nums",
-            color: isOverLimit ? "var(--danger)" : "var(--text-3)",
-            fontWeight: isOverLimit ? 600 : 400,
+            fontFamily: "var(--font-rajdhani)",
+            fontWeight: 700,
+            letterSpacing: "0.05em",
+            color: isOverLimit ? "#FF5252" : "rgba(255,255,255,0.3)",
           }}
         >
-          {charCount.toLocaleString()} / {MAX_CONTENT_LENGTH.toLocaleString()}
+          {charCount.toLocaleString()} / {MAX_CONTENT_LENGTH.toLocaleString()} CHARS
         </span>
 
         {/* Analyse button */}
         <button
-          id="analyze-button"
           onClick={onSubmit}
           disabled={!canSubmit}
-          aria-label="Analyse content for phishing"
-          className={canSubmit ? "btn-primary" : ""}
-          style={canSubmit ? {} : {
+          className={canSubmit ? "btn-red-solid" : ""}
+          style={canSubmit ? { padding: "0.75rem 2rem" } : {
             display: "inline-flex",
             alignItems: "center",
             gap: "0.5rem",
-            padding: "0.6875rem 1.5rem",
-            borderRadius: "var(--radius-btn)",
-            border: "1px solid var(--glass-border)",
-            background: "var(--bg-3)",
-            color: "var(--text-3)",
-            fontFamily: "inherit",
-            fontSize: "0.9375rem",
-            fontWeight: 600,
+            padding: "0.75rem 2rem",
+            borderRadius: "var(--radius-pill)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            background: "rgba(255,255,255,0.02)",
+            color: "rgba(255,255,255,0.2)",
+            fontFamily: "var(--font-rajdhani)",
+            fontSize: "0.875rem",
+            fontWeight: 700,
+            letterSpacing: "0.05em",
             cursor: "not-allowed",
+            textTransform: "uppercase"
           }}
         >
           {isLoading ? (
@@ -219,20 +196,18 @@ export default function InputPanel({
                   display: "inline-block",
                   width: "14px",
                   height: "14px",
-                  border: "2px solid rgba(0,0,0,0.1)",
-                  borderTopColor: "currentColor",
+                  border: "2px solid rgba(255,255,255,0.2)",
+                  borderTopColor: "#FFFFFF",
                   borderRadius: "50%",
                   animation: "spin 0.7s linear infinite",
                   flexShrink: 0,
                 }}
-                aria-hidden="true"
               />
-              Analysing…
+              ANALYZING...
             </>
           ) : (
             <>
-              <span aria-hidden="true" style={{ fontSize: "1.1em" }}>→</span>
-              Analyse
+              LAUNCH ANALYZER →
             </>
           )}
         </button>
@@ -241,20 +216,17 @@ export default function InputPanel({
       {/* ── Error ── */}
       {error && (
         <div
-          id="content-error"
-          role="alert"
-          aria-live="polite"
           style={{
-            padding: "0.75rem 1.125rem",
-            borderTop: "1px solid var(--danger-border)",
-            backgroundColor: "var(--danger-bg)",
+            padding: "1rem 1.5rem",
+            borderTop: "1px solid rgba(211,47,47,0.3)",
+            backgroundColor: "rgba(211,47,47,0.1)",
             display: "flex",
-            alignItems: "flex-start",
-            gap: "0.5rem",
+            alignItems: "center",
+            gap: "0.75rem",
           }}
         >
-          <span style={{ fontSize: "0.875rem", flexShrink: 0 }} aria-hidden="true">⚠</span>
-          <p style={{ fontSize: "0.875rem", color: "var(--danger)", lineHeight: 1.5 }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5252" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <p style={{ fontSize: "0.8125rem", color: "#FF5252", fontWeight: 500, margin: 0 }}>
             {error}
           </p>
         </div>
